@@ -1,4 +1,20 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
+import backgroundBlur from '../../assets/imgs/backgroundBlur.png';
+
+const rotate = keyframes`
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+`;
+
+export const SpinAnimation = styled.span`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  svg {
+    animation: ${rotate} 0.8s linear infinite;
+  }
+`;
 
 // Container da página inteira
 export const PageContainer = styled.div`
@@ -11,7 +27,7 @@ export const PageContainer = styled.div`
 // Seção de background com a imagem de fundo
 export const BackgroundSection = styled.div`
   flex: 1;
-  background-image: url('/src/assets/imgs/backgroundBlur.png');
+  background-image: url('${backgroundBlur}');
   background-size: cover;
   background-position: center;
   display: flex;

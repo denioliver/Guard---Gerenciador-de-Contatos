@@ -1,24 +1,12 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-import { EyeIcon, EyeOffIcon, Spinner, CloseIcon } from '../../assets/icons';
+import { FiEye, FiEyeOff, FiX } from 'react-icons/fi';
+import { BiLoaderAlt } from 'react-icons/bi';
 import { Checkbox } from '../../components/Checkbox';
 import Logo from '../../components/Logo';
 import * as Styles from './styles';
-const loginSchema = z.object({
-  email: z
-    .string()
-    .min(1, 'O e-mail é obrigatório')
-    .email('Digite um e-mail válido'),
-  password: z
-    .string()
-    .min(1, 'A senha é obrigatória')
-    .min(6, 'A senha deve ter pelo menos 6 caracteres'),
-  rememberMe: z.boolean()
-});
-
-type LoginFormData = z.infer<typeof loginSchema>;
+import { loginSchema, type LoginFormData } from './schema';
 
 function Login() {
   const [generalError, setGeneralError] = useState<string | null>(null);
@@ -31,7 +19,8 @@ function Login() {
     control,
     formState: { errors },
     watch,
-    setValue
+    setValue,
+    setFocus
   } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
     mode: 'onChange',
@@ -39,6 +28,10 @@ function Login() {
       rememberMe: false
     }
   });
+
+  useEffect(() => {
+    setFocus('email');
+  }, [setFocus]);
 
   const onSubmit = async (data: LoginFormData) => {
     setGeneralError(null);
@@ -98,7 +91,7 @@ function Login() {
                     type="button"
                     onClick={() => setValue('email', '', { shouldValidate: true })}
                   >
-                    <CloseIcon color="#777777" />
+                    <FiX color="#777777" size={16} />
                   </Styles.ClearButton>
                 )}
               </Styles.InputContainer>
@@ -120,7 +113,7 @@ function Login() {
                   type="button"
                   onClick={() => setShowPassword(prev => !prev)}
                 >
-                  {showPassword ? <EyeOffIcon /> : <EyeIcon />}
+                  {showPassword ? <FiEyeOff size={20} /> : <FiEye size={20} />}
                 </Styles.PasswordToggleButton>
               </Styles.InputContainer>
               {errors.password && (
@@ -147,7 +140,9 @@ function Login() {
             <Styles.Button type="submit" disabled={isLoading}>
               {isLoading ? (
                 <>
-                  <Spinner color="#111111" size={18} />
+                  <Styles.SpinAnimation>
+                    <BiLoaderAlt size={18} />
+                  </Styles.SpinAnimation>
                   Carregando...
                 </>
               ) : (
