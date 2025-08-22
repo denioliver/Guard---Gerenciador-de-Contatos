@@ -1,0 +1,5 @@
+# Configurar todos os arquivos de texto para ter LF ao fazer checkout
+* text=auto eol=lf
+
+# Configurar arquivos específicos para usar CRLF
+*.bat text eol=crlf
