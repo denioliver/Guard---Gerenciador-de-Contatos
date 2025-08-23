@@ -16,7 +16,6 @@ export const SpinAnimation = styled.span`
   }
 `;
 
-// Container da página inteira
 export const PageContainer = styled.div`
   display: flex;
   height: 100vh;
@@ -24,7 +23,6 @@ export const PageContainer = styled.div`
   overflow: hidden;
 `;
 
-// Seção de background com a imagem de fundo
 export const BackgroundSection = styled.div`
   flex: 1;
   background-image: url('${backgroundBlur}');
@@ -43,7 +41,6 @@ export const LogoContainer = styled.div`
   padding: ${({ theme }) => theme.spacing.md};
 `;
 
-// Seção do formulário
 export const FormSection = styled.div`
   width: 40%;
   min-width: 450px;

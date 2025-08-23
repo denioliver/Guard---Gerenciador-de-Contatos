@@ -12,14 +12,12 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
   canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean> {
     const request = context.switchToHttp().getRequest() as any;
 
-    // Verificar se o token existe e analisá-lo para debug
     const authHeader = request.headers.authorization;
     if (authHeader && authHeader.startsWith('Bearer ')) {
       const token = authHeader.substring(7, authHeader.length);
       try {
         const decoded = this.jwtService.decode(token);
 
-        // Verificar se o token expirou
         if (decoded && decoded['exp']) {
           const expTime = new Date(decoded['exp'] * 1000);
           const now = new Date();

@@ -27,7 +27,6 @@ export default function EditContactModal({ isOpen, contact, onClose, onSave, onD
   const [avatar, setAvatar] = useState<string | undefined>(contact?.avatar);
   const [hidden, setHidden] = useState(false);
 
-  // Atualiza os inputs sempre que o contato selecionado mudar
   useEffect(() => {
     setName(contact?.name ?? '');
     setPhone(contact?.phone ?? '');
@@ -35,7 +34,6 @@ export default function EditContactModal({ isOpen, contact, onClose, onSave, onD
     setAvatar(contact?.avatar);
   }, [contact]);
 
-  // Atualiza os inputs sempre que o contato selecionado mudar
   useEffect(() => {
     setName(contact?.name ?? '');
     setPhone(contact?.phone ?? '');
@@ -57,7 +55,6 @@ export default function EditContactModal({ isOpen, contact, onClose, onSave, onD
   async function handleSave() {
     if (!contact) return;
     try {
-      // Envia atualização para o backend
       const response = await api.put(`/contacts/${contact.id}`, {
         nome: name,
         telefone: phone,
@@ -65,7 +62,6 @@ export default function EditContactModal({ isOpen, contact, onClose, onSave, onD
         avatar,
         type: contact.type,
       });
-      // Atualiza o estado local com os dados retornados do backend
       const data = response.data as any;
       onSave({
         id: data._id || contact.id,

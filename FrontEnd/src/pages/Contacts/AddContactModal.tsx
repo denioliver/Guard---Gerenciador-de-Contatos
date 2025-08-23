@@ -14,14 +14,12 @@ export default function AddContactModal({ isOpen, onClose, onSave }: AddContactM
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
   const [avatar, setAvatar] = useState<string | undefined>(undefined);
-  // const [avatarFile, setAvatarFile] = useState<File | null>(null);
 
   if (!isOpen) return null;
 
   function handleAvatarChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (file) {
-      // setAvatarFile(file);
       const reader = new FileReader();
       reader.onload = () => setAvatar(reader.result as string);
       reader.readAsDataURL(file);
@@ -36,22 +34,18 @@ export default function AddContactModal({ isOpen, onClose, onSave }: AddContactM
     }
 
     try {
-      // Teste de autenticação
       await api.get('/contacts');
-
-      // Se a autenticação estiver OK, proceder com a criação do contato
       const response = await api.post(
         '/contacts',
         { nome: name, telefone: phone, email, avatar }
       );
 
-      // Adaptando os dados do backend para o formato esperado pelo frontend
       const contactData = response.data as { nome: string; telefone?: string; email?: string; _id: string };
       const savedContact = {
         name: contactData.nome,
         phone: contactData.telefone || '',
         email: contactData.email || '',
-        avatar: avatar // Usando avatar local já que não estamos enviando para o backend ainda
+        avatar: avatar
       };
 
       onSave(savedContact);
@@ -59,7 +53,6 @@ export default function AddContactModal({ isOpen, onClose, onSave }: AddContactM
       setPhone('');
       setEmail('');
       setAvatar(undefined);
-      // setAvatarFile(null);
       onClose();
     } catch (error: any) {
       console.error('Erro ao salvar contato:', error);
@@ -72,7 +65,6 @@ export default function AddContactModal({ isOpen, onClose, onSave }: AddContactM
     setPhone('');
     setEmail('');
     setAvatar(undefined);
-    // setAvatarFile(null);
     onClose();
   }
 

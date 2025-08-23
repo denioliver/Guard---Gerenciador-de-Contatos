@@ -21,7 +21,7 @@ export class UsersService {
   }
 
   async findByEmail(email: string): Promise<User | null> {
-    return this.userModel.findOne({ email }).exec(); // Retorna UserDocument
+    return this.userModel.findOne({ email }).exec();
   }
 
   async findById(id: string): Promise<UserDocument | null> {

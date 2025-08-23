@@ -16,10 +16,8 @@ export const colors = {
     inverse: '#111111'
   },
   accent: {
-    brand: '#C4F120', // Verde limão
+    brand: '#C4F120',
     red: '#E61E32'
   }
 };
-
-// Tipos para o tema
 export type ThemeColors = typeof colors;

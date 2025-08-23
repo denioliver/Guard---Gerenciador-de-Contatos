@@ -60,7 +60,6 @@ export default function Contacts() {
       (selectedLetter === '' || c.name.toUpperCase().startsWith(selectedLetter)) &&
       c.name.toLowerCase().includes(search.toLowerCase())
   );
-  // Log para debug do filtro
 
   return (
     <Styles.Container>

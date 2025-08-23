@@ -1,10 +1,9 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://localhost:3000', // ajuste conforme seu backend
+  baseURL: 'http://localhost:3000',
 });
 
-// Adiciona o token JWT em todas as requisições
 api.interceptors.request.use(config => {
   const token = localStorage.getItem('token') || sessionStorage.getItem('token');
 
@@ -17,7 +16,6 @@ api.interceptors.request.use(config => {
   return config;
 });
 
-// Interceptor para log de respostas e erros
 api.interceptors.response.use(
   response => {
     return response;
@@ -30,7 +28,6 @@ api.interceptors.response.use(
       config: error.config
     });
 
-    // Encerra a sessão e redireciona para o login quando o token expira
     if (error.response && error.response.status === 401) {
       localStorage.removeItem('token');
       sessionStorage.removeItem('token');

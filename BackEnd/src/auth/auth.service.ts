@@ -13,7 +13,6 @@ export class AuthService {
   async validateUser(email: string, senha: string): Promise<any> {
     const user = await this.usersService.findByEmail(email);
     if (user && (await bcrypt.compare(senha, user.senha))) {
-      // Garante que user seja um documento Mongoose
       interface MongooseUser {
         toObject?: () => Record<string, unknown>;
         senha?: string;
@@ -44,7 +43,6 @@ export class AuthService {
       sub: String(userId),
     };
 
-    // Usar uma expiração explícita para garantir que o token dure o tempo correto
     const token = this.jwtService.sign(payload, { expiresIn: '1h' });
 
     return {

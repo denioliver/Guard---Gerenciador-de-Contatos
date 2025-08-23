@@ -1,9 +1,6 @@
 import { createGlobalStyle } from 'styled-components';
 import { colors } from './colors';
 
-// Importação de fontes deve ser feita no HTML ou em um arquivo CSS separado
-// Não use @import dentro do createGlobalStyle
-
 export const GlobalStyles = createGlobalStyle`
   * {
     margin: 0;

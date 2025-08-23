@@ -35,7 +35,6 @@ function Login() {
   useEffect(() => {
     setFocus('email');
 
-    // Verificar se há mensagem de erro de autenticação
     const authErrorMessage = sessionStorage.getItem('auth_error_message');
     if (authErrorMessage) {
       setGeneralError(authErrorMessage);
