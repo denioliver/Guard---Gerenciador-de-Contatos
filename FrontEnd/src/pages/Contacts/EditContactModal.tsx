@@ -1,6 +1,7 @@
-import { useState } from 'react';
-import * as Styles from './addContactModalStyles';
+import { useState, useEffect } from 'react';
 import { FiX, FiUser, FiUpload, FiTrash2, FiLock, FiUnlock } from 'react-icons/fi';
+import * as Styles from './addContactModalStyles';
+import api from '../../services/api';
 
 type ContactType = {
   id: number;
@@ -26,6 +27,22 @@ export default function EditContactModal({ isOpen, contact, onClose, onSave, onD
   const [avatar, setAvatar] = useState<string | undefined>(contact?.avatar);
   const [hidden, setHidden] = useState(false);
 
+  // Atualiza os inputs sempre que o contato selecionado mudar
+  useEffect(() => {
+    setName(contact?.name ?? '');
+    setPhone(contact?.phone ?? '');
+    setEmail(contact?.email ?? '');
+    setAvatar(contact?.avatar);
+  }, [contact]);
+
+  // Atualiza os inputs sempre que o contato selecionado mudar
+  useEffect(() => {
+    setName(contact?.name ?? '');
+    setPhone(contact?.phone ?? '');
+    setEmail(contact?.email ?? '');
+    setAvatar(contact?.avatar);
+  }, [contact]);
+
   if (!isOpen || !contact) return null;
 
   function handleAvatarChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -37,22 +54,41 @@ export default function EditContactModal({ isOpen, contact, onClose, onSave, onD
     }
   }
 
-  function handleSave() {
+  async function handleSave() {
     if (!contact) return;
-    onSave({
-      id: contact.id,
-      name,
-      phone,
-      email,
-      avatar,
-      type: contact.type,
-    });
+    try {
+      // Envia atualização para o backend
+      const response = await api.put(`/contacts/${contact.id}`, {
+        nome: name,
+        telefone: phone,
+        email,
+        avatar,
+        type: contact.type,
+      });
+      // Atualiza o estado local com os dados retornados do backend
+      const data = response.data as any;
+      onSave({
+        id: data._id || contact.id,
+        name: data.nome || name,
+        phone: data.telefone || phone,
+        email: data.email || email,
+        avatar: data.avatar || avatar,
+        type: data.type || contact.type,
+      });
+    } catch {
+      alert('Erro ao editar contato!');
+    }
     onClose();
   }
 
-  function handleDelete() {
+  async function handleDelete() {
     if (contact) {
-      onDelete(contact.id);
+      try {
+        await api.delete(`/contacts/${contact.id}`);
+        onDelete(contact.id);
+      } catch {
+        alert('Erro ao deletar contato!');
+      }
     }
     onClose();
   }

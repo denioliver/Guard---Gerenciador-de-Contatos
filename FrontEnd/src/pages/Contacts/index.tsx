@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import Logo from '../../components/Logo';
 import AddContactModal from './AddContactModal';
 import EditContactModal from './EditContactModal';
+import DeleteContactModal from './DeleteContactModal';
 
 type ContactType = {
   id: number;
@@ -31,6 +32,9 @@ export default function Contacts() {
   const [selectedLetter, setSelectedLetter] = useState('');
   const [search, setSearch] = useState('');
   const [contacts, setContacts] = useState<ContactType[]>(initialContacts);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [contactToDelete, setContactToDelete] = useState<ContactType | null>(null);
 
   useEffect(() => {
     api.get('/contacts')
@@ -50,7 +54,6 @@ export default function Contacts() {
         }
       });
   }, []);
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const filteredContacts = contacts.filter(
     c => typeof c.name === 'string' &&
@@ -172,7 +175,8 @@ export default function Contacts() {
                             {isHidden ? <FiUnlock /> : <FiLock />}
                           </Styles.ActionBtn>
                           <Styles.ActionBtn title="Excluir" onClick={() => {
-                            setContacts(prev => prev.filter(ct => ct.id !== c.id));
+                            setContactToDelete(c);
+                            setDeleteModalOpen(true);
                           }}><FiTrash2 /></Styles.ActionBtn>
                         </Styles.Actions>
                       </td>
@@ -208,6 +212,16 @@ export default function Contacts() {
               type: '',
             }
           ])}
+        />
+        <DeleteContactModal
+          isOpen={deleteModalOpen}
+          contactId={contactToDelete?.id ?? ''}
+          contactName={contactToDelete?.name}
+          onClose={() => setDeleteModalOpen(false)}
+          onDelete={id => {
+            setContacts(prev => prev.filter(ct => ct.id !== id));
+            setDeleteModalOpen(false);
+          }}
         />
       </Styles.Content>
     </Styles.Container>
