@@ -14,50 +14,68 @@ export default function AddContactModal({ isOpen, onClose, onSave }: AddContactM
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
   const [avatar, setAvatar] = useState<string | undefined>(undefined);
-  const [avatarFile, setAvatarFile] = useState<File | null>(null);
+  // const [avatarFile, setAvatarFile] = useState<File | null>(null);
 
   if (!isOpen) return null;
 
   function handleAvatarChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (file) {
-      setAvatarFile(file);
+      // setAvatarFile(file);
       const reader = new FileReader();
       reader.onload = () => setAvatar(reader.result as string);
       reader.readAsDataURL(file);
     }
   }
 
-  function handleSave() {
+  async function handleSave() {
     const token = localStorage.getItem('token');
     if (!token) {
       alert('Usuário não autenticado. Faça login novamente.');
       return;
     }
 
-    api.post(
-      '/contacts',
-      { nome: name, telefone: phone, email },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    )
-      .then((response) => {
-        console.log('Contato salvo com sucesso:', response.data);
-        onSave(response.data as { name: string; phone: string; email: string; avatar?: string });
-        setName('');
-        setPhone('');
-        setEmail('');
-        setAvatar(undefined);
-        setAvatarFile(null);
-        onClose();
-      })
-      .catch((error) => {
-        console.error('Erro ao salvar contato:', error);
-        alert('Erro ao salvar contato: ' + (error?.response?.data?.message || error.message));
-      });
+    try {
+      // Teste de autenticação
+      await api.get('/contacts');
+      console.log('Autenticação OK! Prosseguindo com criação do contato...');
+
+      // Se a autenticação estiver OK, proceder com a criação do contato
+      const response = await api.post(
+        '/contacts',
+        { nome: name, telefone: phone, email }
+      );
+
+      console.log('Contato salvo com sucesso:', response.data);
+
+      // Adaptando os dados do backend para o formato esperado pelo frontend
+      const contactData = response.data as { nome: string; telefone?: string; email?: string; _id: string };
+      const savedContact = {
+        name: contactData.nome,
+        phone: contactData.telefone || '',
+        email: contactData.email || '',
+        avatar: avatar // Usando avatar local já que não estamos enviando para o backend ainda
+      };
+
+      onSave(savedContact);
+      setName('');
+      setPhone('');
+      setEmail('');
+      setAvatar(undefined);
+      // setAvatarFile(null);
+      onClose();
+    } catch (error: unknown) {
+      console.error('Erro ao salvar contato:', error);
+      const errorMessage = error instanceof Error
+        ? error.message
+        : typeof error === 'object' && error && 'response' in error &&
+          typeof error.response === 'object' && error.response &&
+          'data' in error.response && typeof error.response.data === 'object' &&
+          error.response.data && 'message' in error.response.data
+          ? String(error.response.data.message)
+          : 'Erro desconhecido';
+      alert('Erro ao salvar contato: ' + errorMessage);
+    }
   }
 
   function handleCancel() {
@@ -65,7 +83,7 @@ export default function AddContactModal({ isOpen, onClose, onSave }: AddContactM
     setPhone('');
     setEmail('');
     setAvatar(undefined);
-    setAvatarFile(null);
+    // setAvatarFile(null);
     onClose();
   }
 

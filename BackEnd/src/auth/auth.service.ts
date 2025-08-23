@@ -43,8 +43,14 @@ export class AuthService {
       email: user.email,
       sub: String(userId),
     };
+    console.log('Gerando token JWT para o usuário:', payload.email);
+
+    // Usar uma expiração explícita para garantir que o token dure o tempo correto
+    const token = this.jwtService.sign(payload, { expiresIn: '1h' });
+
+    console.log('Token JWT gerado com sucesso');
     return {
-      access_token: this.jwtService.sign(payload),
+      access_token: token,
     };
   }
 
