@@ -1,9 +1,10 @@
 import { createGlobalStyle } from 'styled-components';
 import { colors } from './colors';
 
-export const GlobalStyles = createGlobalStyle`
-  @import url('https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700&display=swap');
+// Importação de fontes deve ser feita no HTML ou em um arquivo CSS separado
+// Não use @import dentro do createGlobalStyle
 
+export const GlobalStyles = createGlobalStyle`
   * {
     margin: 0;
     padding: 0;

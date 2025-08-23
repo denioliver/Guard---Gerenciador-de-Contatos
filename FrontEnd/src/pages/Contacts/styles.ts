@@ -23,9 +23,9 @@ export const Menu = styled.div`
   margin-top: 60px;
 `;
 
-export const MenuItem = styled.button<{ active?: boolean }>`
-  background: ${({ active }) => (active ? '#D6FF4B' : 'transparent')};
-  color: ${({ active }) => (active ? '#222' : '#bdbdbd')};
+export const MenuItem = styled.button<{ $active?: boolean }>`
+  background: ${({ $active }) => ($active ? '#D6FF4B' : 'transparent')};
+  color: ${({ $active }) => ($active ? '#222' : '#bdbdbd')};
   border: none;
   border-radius: 8px;
   padding: 12px;
@@ -140,16 +140,15 @@ export const LetterBar = styled.div`
   gap: 8px;
 `;
 
-export const LetterItem = styled.button<{ active?: boolean }>`
-  background: transparent;
+export const LetterItem = styled.button<{ $active?: boolean }>`
   border: none;
-  color: ${({ active }) => (active ? '#222' : '#222')};
-  font-weight: ${({ active }) => (active ? 'bold' : 'normal')};
+  color: ${({ $active }) => ($active ? '#222' : '#222')};
+  font-weight: ${({ $active }) => ($active ? 'bold' : 'normal')};
   font-size: 18px;
   padding: 6px 0;
   width: 100%;
   border-radius: 8px;
-  background: ${({ active }) => (active ? '#fff' : 'transparent')};
+  background: ${({ $active }) => ($active ? '#fff' : 'transparent')};
   cursor: pointer;
   transition: background 0.2s;
 `;

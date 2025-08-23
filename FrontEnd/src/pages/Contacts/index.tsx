@@ -49,7 +49,7 @@ export default function Contacts() {
       <Styles.Sidebar>
         <Logo size="small" />
         <Styles.Menu>
-          <Styles.MenuItem active>
+          <Styles.MenuItem $active>
             <FiUserPlus />
           </Styles.MenuItem>
           <Styles.MenuItem>
@@ -97,7 +97,7 @@ export default function Contacts() {
             {letters.map(l => (
               <Styles.LetterItem
                 key={l}
-                active={l === selectedLetter}
+                $active={l === selectedLetter}
                 onClick={() => setSelectedLetter(l)}
               >
                 {l}
