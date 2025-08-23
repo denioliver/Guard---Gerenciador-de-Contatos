@@ -64,17 +64,9 @@ export default function AddContactModal({ isOpen, onClose, onSave }: AddContactM
       setAvatar(undefined);
       // setAvatarFile(null);
       onClose();
-    } catch (error: unknown) {
+    } catch (error: any) {
       console.error('Erro ao salvar contato:', error);
-      const errorMessage = error instanceof Error
-        ? error.message
-        : typeof error === 'object' && error && 'response' in error &&
-          typeof error.response === 'object' && error.response &&
-          'data' in error.response && typeof error.response.data === 'object' &&
-          error.response.data && 'message' in error.response.data
-          ? String(error.response.data.message)
-          : 'Erro desconhecido';
-      alert('Erro ao salvar contato: ' + errorMessage);
+      alert('Erro ao salvar contato: ' + (error?.response?.data?.message || error.message));
     }
   }
 

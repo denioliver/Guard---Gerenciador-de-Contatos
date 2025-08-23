@@ -10,12 +10,13 @@ import AddContactModal from './AddContactModal';
 import EditContactModal from './EditContactModal';
 
 type ContactType = {
-  id: number;
-  name: string;
+  id: string | number;  // Garantir que id seja sempre definido
+  name: string;         // Nome padronizado para o frontend
   type: string;
   phone: string;
   email: string;
   avatar?: string;
+  observacoes?: string;
 };
 
 const initialContacts: ContactType[] = [
@@ -25,7 +26,7 @@ const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M'
 
 export default function Contacts() {
   const navigate = useNavigate();
-  const [hiddenContacts, setHiddenContacts] = useState<number[]>([]);
+  const [hiddenContacts, setHiddenContacts] = useState<Array<string | number>>([]);
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [selectedContact, setSelectedContact] = useState<ContactType | null>(null);
   const [selectedLetter, setSelectedLetter] = useState('A');
@@ -35,13 +36,32 @@ export default function Contacts() {
   useEffect(() => {
     api.get('/contacts')
       .then(response => {
-        setContacts(Array.isArray(response.data) ? response.data as ContactType[] : []);
+        if (Array.isArray(response.data)) {
+          // Mapear os campos do backend para o formato esperado pelo frontend
+          const mappedContacts = response.data.map(contact => ({
+            id: contact._id || contact.id,
+            name: contact.nome || contact.name,
+            type: contact.type || '',
+            phone: contact.telefone || contact.phone || '',
+            email: contact.email || '',
+            avatar: contact.avatar || ''
+          }));
+          setContacts(mappedContacts);
+        } else {
+          setContacts([]);
+        }
+      })
+      .catch(error => {
+        console.error('Erro ao buscar contatos:', error);
+        setContacts([]);
       });
   }, []);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  // Usar o campo padronizado 'name' que já foi mapeado no useEffect
   const filteredContacts = contacts.filter(
-    c => c.name.toUpperCase().startsWith(selectedLetter) && c.name.toLowerCase().includes(search.toLowerCase())
+    c => c && c.name && c.name.toUpperCase().startsWith(selectedLetter) && 
+         c.name.toLowerCase().includes(search.toLowerCase())
   );
 
   return (
