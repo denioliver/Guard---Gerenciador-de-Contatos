@@ -30,25 +30,21 @@ export default function AddContactModal({ isOpen, onClose, onSave }: AddContactM
 
   function handleSave() {
     const token = localStorage.getItem('token');
+
     if (!token) {
       alert('Usuário não autenticado. Faça login novamente.');
       return;
     }
 
-    const formData = new FormData();
-    formData.append('nome', name);
-    formData.append('telefone', phone);
-    formData.append('email', email);
-    if (avatarFile) {
-      formData.append('avatar', avatarFile);
-    }
-
-    api.post('/contacts', formData, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'multipart/form-data',
-      },
-    })
+    api.post(
+      '/contacts',
+      { nome: name, telefone: phone, email, avatar },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
       .then((response) => {
         console.log('Contato salvo com sucesso:', response.data);
         onSave(response.data as { name: string; phone: string; email: string; avatar?: string });
