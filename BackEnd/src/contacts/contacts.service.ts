@@ -17,7 +17,9 @@ export class ContactsService {
     const newContact = new this.contactModel({
       ...createContactDto,
       usuario: userId,
+      avatar: createContactDto.avatar ?? undefined,
     });
+    console.log('Dados do contato a ser salvo:', newContact);
     return newContact.save();
   }
 

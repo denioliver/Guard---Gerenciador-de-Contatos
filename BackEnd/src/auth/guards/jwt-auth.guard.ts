@@ -11,11 +11,6 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
 
   canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean> {
     const request = context.switchToHttp().getRequest() as any;
-    console.log('--------- JwtAuthGuard: Verificando requisição ---------');
-    console.log('Método:', request.method);
-    console.log('URL:', request.url);
-    console.log('Headers:', request.headers);
-    console.log('Body:', request.body);
 
     // Verificar se o token existe e analisá-lo para debug
     const authHeader = request.headers.authorization;
@@ -23,15 +18,11 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
       const token = authHeader.substring(7, authHeader.length);
       try {
         const decoded = this.jwtService.decode(token);
-        console.log('Token decodificado:', decoded);
 
         // Verificar se o token expirou
         if (decoded && decoded['exp']) {
           const expTime = new Date(decoded['exp'] * 1000);
           const now = new Date();
-          console.log(`Token expira em: ${expTime.toISOString()}`);
-          console.log(`Hora atual: ${now.toISOString()}`);
-          console.log(`Token expirado? ${expTime < now ? 'Sim' : 'Não'}`);
         }
       } catch (e) {
         console.error('Erro ao decodificar token:', e);
@@ -39,8 +30,6 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
     } else {
       console.log('Nenhum token JWT encontrado no cabeçalho Authorization');
     }
-
-    console.log('--------- Fim da verificação ---------');
 
     return super.canActivate(context);
   }

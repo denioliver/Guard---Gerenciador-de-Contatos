@@ -51,13 +51,10 @@ function Login() {
         email: data.email,
         senha: data.password
       });
-      console.log('Resposta do backend (login):', response.data);
       const dataResponse = response.data as { access_token?: string; token?: string };
       const token = dataResponse.access_token || dataResponse.token;
-      console.log('Token capturado:', token);
       if (token) {
         localStorage.setItem('token', token);
-        console.log('Token JWT salvo:', token);
         navigate('/contacts');
       } else {
         setGeneralError('Token não recebido.');

@@ -33,4 +33,11 @@ export class CreateContactDto {
   @IsOptional()
   @IsString({ message: 'Observações devem ser uma string' })
   readonly observacoes?: string;
+  @ApiPropertyOptional({
+    description: 'Imagem do contato em base64',
+    example: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAA...',
+  })
+  @IsOptional()
+  @IsString({ message: 'Avatar deve ser uma string' })
+  readonly avatar?: string;
 }

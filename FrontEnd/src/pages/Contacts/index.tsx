@@ -61,7 +61,6 @@ export default function Contacts() {
       c.name.toLowerCase().includes(search.toLowerCase())
   );
   // Log para debug do filtro
-  console.log('Contatos filtrados para renderização:', filteredContacts);
 
   return (
     <Styles.Container>

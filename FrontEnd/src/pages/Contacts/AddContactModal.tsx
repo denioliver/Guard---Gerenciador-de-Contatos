@@ -38,15 +38,12 @@ export default function AddContactModal({ isOpen, onClose, onSave }: AddContactM
     try {
       // Teste de autenticação
       await api.get('/contacts');
-      console.log('Autenticação OK! Prosseguindo com criação do contato...');
 
       // Se a autenticação estiver OK, proceder com a criação do contato
       const response = await api.post(
         '/contacts',
-        { nome: name, telefone: phone, email }
+        { nome: name, telefone: phone, email, avatar }
       );
-
-      console.log('Contato salvo com sucesso:', response.data);
 
       // Adaptando os dados do backend para o formato esperado pelo frontend
       const contactData = response.data as { nome: string; telefone?: string; email?: string; _id: string };
