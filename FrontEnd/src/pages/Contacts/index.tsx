@@ -10,13 +10,12 @@ import AddContactModal from './AddContactModal';
 import EditContactModal from './EditContactModal';
 
 type ContactType = {
-  id: string | number;  // Garantir que id seja sempre definido
-  name: string;         // Nome padronizado para o frontend
+  id: number;
+  name: string;
   type: string;
   phone: string;
   email: string;
   avatar?: string;
-  observacoes?: string;
 };
 
 const initialContacts: ContactType[] = [
@@ -26,10 +25,10 @@ const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M'
 
 export default function Contacts() {
   const navigate = useNavigate();
-  const [hiddenContacts, setHiddenContacts] = useState<Array<string | number>>([]);
+  const [hiddenContacts, setHiddenContacts] = useState<number[]>([]);
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [selectedContact, setSelectedContact] = useState<ContactType | null>(null);
-  const [selectedLetter, setSelectedLetter] = useState('A');
+  const [selectedLetter, setSelectedLetter] = useState('');
   const [search, setSearch] = useState('');
   const [contacts, setContacts] = useState<ContactType[]>(initialContacts);
 
@@ -37,32 +36,29 @@ export default function Contacts() {
     api.get('/contacts')
       .then(response => {
         if (Array.isArray(response.data)) {
-          // Mapear os campos do backend para o formato esperado pelo frontend
-          const mappedContacts = response.data.map(contact => ({
-            id: contact._id || contact.id,
-            name: contact.nome || contact.name,
-            type: contact.type || '',
-            phone: contact.telefone || contact.phone || '',
-            email: contact.email || '',
-            avatar: contact.avatar || ''
+          const mappedContacts = response.data.map((c: any) => ({
+            id: c._id || c.id,
+            name: c.nome || c.name || '',
+            type: c.type || '',
+            phone: c.telefone || c.phone || '',
+            email: c.email || '',
+            avatar: c.avatar || '',
           }));
           setContacts(mappedContacts);
         } else {
           setContacts([]);
         }
-      })
-      .catch(error => {
-        console.error('Erro ao buscar contatos:', error);
-        setContacts([]);
       });
   }, []);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Usar o campo padronizado 'name' que já foi mapeado no useEffect
   const filteredContacts = contacts.filter(
-    c => c && c.name && c.name.toUpperCase().startsWith(selectedLetter) && 
-         c.name.toLowerCase().includes(search.toLowerCase())
+    c => typeof c.name === 'string' &&
+      (selectedLetter === '' || c.name.toUpperCase().startsWith(selectedLetter)) &&
+      c.name.toLowerCase().includes(search.toLowerCase())
   );
+  // Log para debug do filtro
+  console.log('Contatos filtrados para renderização:', filteredContacts);
 
   return (
     <Styles.Container>
