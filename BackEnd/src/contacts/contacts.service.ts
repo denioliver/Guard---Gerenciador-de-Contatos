@@ -6,9 +6,14 @@ import { CreateContactDto } from './dto/create-contact.dto';
 
 @Injectable()
 export class ContactsService {
-  constructor(@InjectModel(Contact.name) private contactModel: Model<ContactDocument>) { }
+  constructor(
+    @InjectModel(Contact.name) private contactModel: Model<ContactDocument>,
+  ) { }
 
-  async create(createContactDto: CreateContactDto, userId: string): Promise<Contact> {
+  async create(
+    createContactDto: CreateContactDto,
+    userId: string
+  ): Promise<Contact> {
     const newContact = new this.contactModel({
       ...createContactDto,
       usuario: userId,
@@ -21,16 +26,26 @@ export class ContactsService {
   }
 
   async findOne(id: string, userId: string): Promise<Contact> {
-    const contact = await this.contactModel.findOne({ _id: id, usuario: userId }).exec();
+    const contact = await this.contactModel
+      .findOne({ _id: id, usuario: userId })
+      .exec();
     if (!contact) {
       throw new NotFoundException('Contato não encontrado');
     }
     return contact;
   }
 
-  async update(id: string, updateContactDto: CreateContactDto, userId: string): Promise<Contact> {
+  async update(
+    id: string,
+    updateContactDto: CreateContactDto,
+    userId: string
+  ): Promise<Contact> {
     const existingContact = await this.contactModel
-      .findOneAndUpdate({ _id: id, usuario: userId }, { $set: updateContactDto }, { new: true })
+      .findOneAndUpdate(
+        { _id: id, usuario: userId },
+        { $set: updateContactDto },
+        { new: true }
+      )
       .exec();
 
     if (!existingContact) {
@@ -40,7 +55,9 @@ export class ContactsService {
   }
 
   async remove(id: string, userId: string): Promise<void> {
-    const result = await this.contactModel.deleteOne({ _id: id, usuario: userId }).exec();
+    const result = await this.contactModel
+      .deleteOne({ _id: id, usuario: userId })
+      .exec();
     if (result.deletedCount === 0) {
       throw new NotFoundException('Contato não encontrado');
     }

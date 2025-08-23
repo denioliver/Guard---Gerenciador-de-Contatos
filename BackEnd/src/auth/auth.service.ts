@@ -13,16 +13,35 @@ export class AuthService {
   async validateUser(email: string, senha: string): Promise<any> {
     const user = await this.usersService.findByEmail(email);
     if (user && (await bcrypt.compare(senha, user.senha))) {
-      const { senha, ...result } = user;
-      return result;
+      // Garante que user seja um documento Mongoose
+      interface MongooseUser {
+        toObject?: () => Record<string, unknown>;
+        senha?: string;
+        _id?: any;
+        [key: string]: unknown;
+      }
+      const mongooseUser = user as unknown as MongooseUser;
+      const userObj =
+        typeof mongooseUser.toObject === 'function' ? mongooseUser.toObject() : { ...mongooseUser };
+      if ('senha' in userObj) {
+        delete userObj.senha;
+      }
+      if (userObj._id) {
+        userObj._id = userObj._id.toString();
+      }
+      return userObj;
     }
     return null;
   }
 
-  async login(user: any) {
+  login(user: { _id?: string; id?: string; email: string }) {
+    const userId = user._id || user.id;
+    if (!userId) {
+      throw new UnauthorizedException('Usuário sem id. Não é possível gerar token.');
+    }
     const payload = {
       email: user.email,
-      sub: user._id ? user._id.toString() : user.id,
+      sub: String(userId),
     };
     return {
       access_token: this.jwtService.sign(payload),
@@ -36,9 +55,12 @@ export class AuthService {
     }
 
     const user = await this.usersService.create({ nome, email, senha });
+    if (!user._id) {
+      throw new UnauthorizedException('Falha ao criar usuário: id não gerado.');
+    }
     const payload = {
       email: user.email,
-      sub: user._id ? user._id.toString() : '',
+      sub: user._id.toString(),
     };
 
     return {

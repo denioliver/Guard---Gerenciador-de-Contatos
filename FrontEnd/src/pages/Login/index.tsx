@@ -50,12 +50,10 @@ function Login() {
       console.log('Token capturado:', token);
       if (token) {
         localStorage.setItem('token', token);
-        console.log('Token JWT salvo no localStorage:', localStorage.getItem('token'));
-        setTimeout(() => {
-          navigate('/contacts');
-        }, 100);
+        console.log('Token JWT salvo:', token);
+        navigate('/contacts');
       } else {
-        setGeneralError('Token não recebido do backend.');
+        setGeneralError('Token não recebido.');
       }
     } catch (err: unknown) {
       interface ErrorResponse {

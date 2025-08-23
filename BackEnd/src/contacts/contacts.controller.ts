@@ -20,6 +20,7 @@ export class ContactsController {
 
   @Post()
   async create(@Body() createContactDto: CreateContactDto, @Request() req) {
+    console.log('req.user:', req.user);
     return this.contactsService.create(createContactDto, req.user.userId);
   }
 

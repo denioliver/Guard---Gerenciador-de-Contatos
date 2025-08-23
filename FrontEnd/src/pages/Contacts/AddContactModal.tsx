@@ -30,7 +30,6 @@ export default function AddContactModal({ isOpen, onClose, onSave }: AddContactM
 
   function handleSave() {
     const token = localStorage.getItem('token');
-
     if (!token) {
       alert('Usuário não autenticado. Faça login novamente.');
       return;
@@ -38,7 +37,7 @@ export default function AddContactModal({ isOpen, onClose, onSave }: AddContactM
 
     api.post(
       '/contacts',
-      { nome: name, telefone: phone, email, avatar },
+      { nome: name, telefone: phone, email },
       {
         headers: {
           Authorization: `Bearer ${token}`,
