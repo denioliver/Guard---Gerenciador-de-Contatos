@@ -23,21 +23,17 @@ describe('Componente Logo', () => {
     renderWithTheme(<Logo />);
     const logoText = screen.getByText('GUARD');
     expect(logoText).toBeInTheDocument();
-    // Como o componente usa styled-components, não podemos verificar diretamente o atributo
-    // Mas podemos verificar que o logo é renderizado corretamente
   });
 
   test('deve renderizar com tamanho pequeno quando especificado', () => {
     renderWithTheme(<Logo size="small" />);
     const logoText = screen.getByText('GUARD');
     expect(logoText).toBeInTheDocument();
-    // Como o componente usa styled-components, não podemos verificar diretamente o atributo
   });
 
   test('deve renderizar com tamanho grande quando especificado', () => {
     renderWithTheme(<Logo size="large" />);
     const logoText = screen.getByText('GUARD');
     expect(logoText).toBeInTheDocument();
-    // Como o componente usa styled-components, não podemos verificar diretamente o atributo
   });
 });

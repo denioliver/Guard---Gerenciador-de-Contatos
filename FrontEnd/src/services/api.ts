@@ -29,10 +29,15 @@ api.interceptors.response.use(
     });
 
     if (error.response && error.response.status === 401) {
-      localStorage.removeItem('token');
-      sessionStorage.removeItem('token');
-      sessionStorage.setItem('auth_error_message', 'Sua sessão expirou. Por favor, faça login novamente.');
-      window.location.href = '/login';
+      const isLoginRequest = error.config.url.includes('/auth/login');
+      const isPasswordValidationRequest = error.config.url.includes('/auth/validate-password');
+
+      if (!isLoginRequest && !isPasswordValidationRequest) {
+        localStorage.removeItem('token');
+        sessionStorage.removeItem('token');
+        sessionStorage.setItem('auth_error_message', 'Sua sessão expirou. Por favor, faça login novamente.');
+        window.location.href = '/';
+      }
     }
 
     return Promise.reject(error);

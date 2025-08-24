@@ -70,7 +70,6 @@ describe('Componente Checkbox', () => {
     const checkbox = screen.getByRole('checkbox');
     expect(checkbox).toHaveAttribute('id', 'custom-id');
 
-    // Testar com fallback para name
     renderWithTheme(
       <Checkbox
         label="Sem ID personalizado"

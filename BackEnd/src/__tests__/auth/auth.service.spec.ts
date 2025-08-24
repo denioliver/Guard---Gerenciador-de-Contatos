@@ -4,7 +4,6 @@ import { UsersService } from '../../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 
-// Mock do módulo bcrypt para evitar problemas com os testes
 jest.mock('bcrypt', () => ({
   compare: jest.fn(),
 }));
@@ -43,7 +42,6 @@ describe('AuthService', () => {
 
   describe('validateUser', () => {
     it('should validate a user successfully with correct credentials', async () => {
-      // Configurar o mock para retornar true
       (bcrypt.compare as jest.Mock).mockResolvedValue(true);
 
       const user = {
@@ -59,7 +57,6 @@ describe('AuthService', () => {
     });
 
     it('should return null for invalid credentials', async () => {
-      // Configurar o mock para retornar false
       (bcrypt.compare as jest.Mock).mockResolvedValue(false);
 
       const user = {

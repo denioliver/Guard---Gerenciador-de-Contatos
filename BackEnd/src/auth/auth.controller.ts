@@ -44,4 +44,17 @@ export class AuthController {
       throw new HttpException('Erro ao validar senha', HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
+
+  @Post('forgot-password')
+  async forgotPassword(@Body() body: { email: string }) {
+    if (!body.email) {
+      throw new HttpException('Email não fornecido', HttpStatus.BAD_REQUEST);
+    }
+    const result = await this.authService.forgotPassword(body.email);
+    if (result.success) {
+      return { success: true, message: 'Senha enviada para o e-mail!' };
+    } else {
+      throw new HttpException(result.message, HttpStatus.NOT_FOUND);
+    }
+  }
 }
