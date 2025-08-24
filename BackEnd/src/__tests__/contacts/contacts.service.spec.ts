@@ -30,7 +30,6 @@ describe('ContactsService', () => {
       save: jest.fn(),
     };
 
-    // Criar mock para o construtor do modelo Mongoose
     const mockContactModelToken = function () {
       return {
         ...mockModel,

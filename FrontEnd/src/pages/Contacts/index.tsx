@@ -294,10 +294,6 @@ export default function Contacts() {
               fetchContacts();
               setEditModalOpen(false);
             }}
-            onDelete={() => {
-              fetchContacts();
-              setEditModalOpen(false);
-            }}
           />
         </Styles.MainCard>
         <AddContactModal

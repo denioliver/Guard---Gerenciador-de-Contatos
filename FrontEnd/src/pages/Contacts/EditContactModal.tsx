@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { FiX, FiUser, FiUpload, FiTrash2, FiLock, FiUnlock } from 'react-icons/fi';
+import { FiX, FiUser, FiUpload } from 'react-icons/fi';
 import * as Styles from './addContactModalStyles';
 import api from '../../services/api';
 
@@ -17,15 +17,13 @@ interface EditContactModalProps {
   contact: ContactType | null;
   onClose: () => void;
   onSave: (contact: ContactType) => void;
-  onDelete: (id: number) => void;
 }
 
-export default function EditContactModal({ isOpen, contact, onClose, onSave, onDelete }: EditContactModalProps) {
+export default function EditContactModal({ isOpen, contact, onClose, onSave }: EditContactModalProps) {
   const [name, setName] = useState(contact?.name ?? '');
   const [phone, setPhone] = useState(contact?.phone ?? '');
   const [email, setEmail] = useState(contact?.email ?? '');
   const [avatar, setAvatar] = useState<string | undefined>(contact?.avatar);
-  const [hidden, setHidden] = useState(false);
 
   useEffect(() => {
     setName(contact?.name ?? '');
@@ -84,18 +82,6 @@ export default function EditContactModal({ isOpen, contact, onClose, onSave, onD
     onClose();
   }
 
-  async function handleDelete() {
-    if (contact) {
-      try {
-        await api.delete(`/contacts/${contact.id}`);
-        onDelete(contact.id);
-      } catch {
-        alert('Erro ao deletar contato!');
-      }
-    }
-    onClose();
-  }
-
   function handleCancel() {
     if (contact) {
       setName(contact.name);
@@ -115,9 +101,7 @@ export default function EditContactModal({ isOpen, contact, onClose, onSave, onD
         </Styles.ModalHeader>
         <Styles.ModalBody>
           <Styles.AvatarBox>
-            {hidden ? (
-              <Styles.AvatarIcon><FiLock size={48} /></Styles.AvatarIcon>
-            ) : avatar ? (
+            {avatar ? (
               <img src={avatar} alt="Avatar" />
             ) : (
               <Styles.AvatarIcon><FiUser size={48} /></Styles.AvatarIcon>
@@ -129,27 +113,19 @@ export default function EditContactModal({ isOpen, contact, onClose, onSave, onD
           </Styles.AvatarBox>
           <Styles.FormGroup>
             <Styles.Label>Nome</Styles.Label>
-            <Styles.Input value={hidden ? '••••••••••' : name} onChange={e => setName(e.target.value)} placeholder="Nome do contato" disabled={hidden} />
+            <Styles.Input value={name} onChange={e => setName(e.target.value)} placeholder="Nome do contato" />
           </Styles.FormGroup>
           <Styles.FormGroup>
             <Styles.Label>Telefone</Styles.Label>
-            <Styles.Input value={hidden ? '••••••••••' : phone} onChange={e => setPhone(e.target.value)} placeholder="Número de telefone" disabled={hidden} />
+            <Styles.Input value={phone} onChange={e => setPhone(e.target.value)} placeholder="Número de telefone" />
           </Styles.FormGroup>
           <Styles.FormGroup>
             <Styles.Label>E-mail</Styles.Label>
-            <Styles.Input value={hidden ? '••••••••••' : email} onChange={e => setEmail(e.target.value)} placeholder="Email do contato" disabled={hidden} />
+            <Styles.Input value={email} onChange={e => setEmail(e.target.value)} placeholder="Email do contato" />
           </Styles.FormGroup>
         </Styles.ModalBody>
         <Styles.ModalFooter>
-          <div style={{ display: 'flex', gap: '8px' }}>
-            <button onClick={handleDelete} style={{ background: '#333', color: '#ff3b3b', borderRadius: 8, padding: '10px 14px', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px', fontSize: '14px' }}>
-              <FiTrash2 /> Apagar
-            </button>
-            <button onClick={() => setHidden(h => !h)} style={{ background: '#333', color: '#fff', borderRadius: 8, padding: '10px 14px', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px', fontSize: '14px' }}>
-              {hidden ? <FiUnlock /> : <FiLock />} {hidden ? 'Mostrar' : 'Esconder'}
-            </button>
-          </div>
-          <div style={{ display: 'flex', gap: '8px' }}>
+          <div style={{ display: 'flex', gap: '8px', marginLeft: 'auto' }}>
             <Styles.CancelBtn onClick={handleCancel}>Cancelar</Styles.CancelBtn>
             <Styles.SaveBtn onClick={handleSave}>Salvar</Styles.SaveBtn>
           </div>

@@ -44,16 +44,11 @@ describe('Componente Button', () => {
     renderWithTheme(<Button variant="secondary">Secundário</Button>);
 
     const button = screen.getByText('Secundário');
-    // Verificar que o botão existe com o texto correto
     expect(button).toBeInTheDocument();
-    // Como o componente usa styled-components, não podemos verificar diretamente o atributo
-    // Podemos verificar que o botão é renderizado corretamente
   }); test('deve aplicar fullWidth quando a prop é true', () => {
     renderWithTheme(<Button fullWidth>Largura Total</Button>);
 
     const button = screen.getByText('Largura Total');
     expect(button).toBeInTheDocument();
-    // Como o componente usa styled-components, não podemos verificar diretamente o atributo
-    // Podemos verificar que o botão é renderizado corretamente
   });
 });

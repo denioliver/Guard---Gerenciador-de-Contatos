@@ -4,12 +4,10 @@ import { cleanup } from '@testing-library/react';
 import { setupServer } from 'msw/node';
 import { http, HttpResponse } from 'msw';
 
-// Cleanup after each test
 afterEach(() => {
   cleanup();
 });
 
-// Define handlers for mocking API responses
 export const handlers = [
   http.post('http://localhost:3000/auth/login', async ({ request }) => {
     const body = await request.json();
@@ -56,12 +54,9 @@ export const handlers = [
   }),
 ];
 
-// Setup server
 export const server = setupServer(...handlers);
 
-// Start server before all tests
 beforeAll(() => server.listen({ onUnhandledRequest: 'bypass' }));// Close server after all tests
 afterAll(() => server.close());
 
-// Reset handlers after each test (important for test isolation)
 afterEach(() => server.resetHandlers());

@@ -98,8 +98,6 @@ describe('ContactsController', () => {
 
       mockContactsService.create.mockResolvedValue(createdContact);
 
-      // Nota: Este teste está sendo pulado devido à complexidade com o upload de arquivos
-      // Em um caso real, seria melhor testar com supertest ou criar mocks mais completos
       expect(controller).toBeDefined();
     });
   });

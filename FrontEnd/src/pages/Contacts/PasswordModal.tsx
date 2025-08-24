@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import { FiX, FiEye, FiEyeOff } from 'react-icons/fi';
+import { FiX, FiEye, FiEyeOff, FiLock } from 'react-icons/fi';
 import { BiLoaderAlt } from 'react-icons/bi';
 import api from '../../services/api';
 
@@ -217,6 +217,7 @@ export default function PasswordModal({ isOpen, onClose, onPasswordVerified }: P
         console.error('Erro na API ao validar senha:', error);
         const apiError = error as {
           response?: {
+            status?: number;
             data?: {
               message?: string
             }
@@ -225,7 +226,11 @@ export default function PasswordModal({ isOpen, onClose, onPasswordVerified }: P
         };
 
         if (apiError.response) {
-          setError(apiError.response.data?.message || 'Senha incorreta. Tente novamente.');
+          if (apiError.response.status === 401) {
+            setError('Senha incorreta. Tente novamente.');
+          } else {
+            setError(apiError.response.data?.message || 'Erro ao validar senha. Tente novamente.');
+          }
         } else if (apiError.request) {
           setError('Erro de conexão com o servidor. Verifique sua conexão.');
         } else {
@@ -251,7 +256,15 @@ export default function PasswordModal({ isOpen, onClose, onPasswordVerified }: P
       <ModalContent onClick={(e) => e.stopPropagation()}>
         <ModalHeader>
           <ModalTitle>
-            Visualizar informações
+            {error && error.includes('incorreta') ? (
+              <>
+                <FiLock color="#ff6b6b" /> Visualizar informações
+              </>
+            ) : (
+              <>
+                Visualizar informações
+              </>
+            )}
           </ModalTitle>
           <CloseButton onClick={onClose}>
             <FiX />
