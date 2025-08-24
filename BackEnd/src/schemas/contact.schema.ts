@@ -22,6 +22,9 @@ export class Contact {
 
   @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'User', required: true })
   usuario: User;
+
+  @Prop({ type: String })
+  avatar?: string;
 }
 
 export const ContactSchema = SchemaFactory.createForClass(Contact);

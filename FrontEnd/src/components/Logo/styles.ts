@@ -2,23 +2,23 @@ import styled from 'styled-components';
 
 const sizes = {
   small: {
-    image: '24px',
-    text: '16px'
+    image: '20px',
+    text: '14px'
   },
   medium: {
-    image: '32px',
-    text: '24px'
+    image: '28px',
+    text: '20px'
   },
   large: {
-    image: '48px',
-    text: '36px'
+    image: '40px',
+    text: '32px'
   }
 };
 
 export const Container = styled.div`
   display: flex;
   align-items: center;
-  gap: ${({ theme }) => theme.spacing.sm};
+  gap: 8px;
 `;
 
 export const LogoImage = styled.div<{ size: 'small' | 'medium' | 'large' }>`
@@ -26,13 +26,13 @@ export const LogoImage = styled.div<{ size: 'small' | 'medium' | 'large' }>`
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
-  width: ${({ size }) => sizes[size].image};
+  width: 30px;
   height: ${({ size }) => sizes[size].image};
-  margin-right: ${({ theme }) => theme.spacing.xs};
+  margin-left: 0;
 `;
 
 export const LogoText = styled.h1<{ size: 'small' | 'medium' | 'large' }>`
-  font-size: ${({ size }) => sizes[size].text};
+  font-size: 24px;
   font-weight: 700;
   color: ${({ theme }) => theme.colors.content.primary};
   margin: 0;

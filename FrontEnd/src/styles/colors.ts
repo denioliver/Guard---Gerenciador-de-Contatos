@@ -1,7 +1,7 @@
 export const colors = {
   background: {
-    primary: '#111111',
-    secondary: '#1B1B1B',
+    primary: '#161616',
+    secondary: '#1F1F1F',
     tertiary: '#303030'
   },
   border: {
@@ -16,10 +16,8 @@ export const colors = {
     inverse: '#111111'
   },
   accent: {
-    brand: '#C4F120', // Verde limão
+    brand: '#C4F120',
     red: '#E61E32'
   }
 };
-
-// Tipos para o tema
 export type ThemeColors = typeof colors;

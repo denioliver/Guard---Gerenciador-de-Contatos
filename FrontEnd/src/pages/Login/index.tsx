@@ -5,6 +5,8 @@ import { FiEye, FiEyeOff, FiX } from 'react-icons/fi';
 import { BiLoaderAlt } from 'react-icons/bi';
 import { Checkbox } from '../../components/Checkbox';
 import Logo from '../../components/Logo';
+import { useNavigate } from 'react-router-dom';
+import api from '../../services/api';
 import * as Styles from './styles';
 import { loginSchema, type LoginFormData } from './schema';
 
@@ -12,6 +14,7 @@ function Login() {
   const [generalError, setGeneralError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
 
   const {
     register,
@@ -31,24 +34,55 @@ function Login() {
 
   useEffect(() => {
     setFocus('email');
+
+    const authErrorMessage = sessionStorage.getItem('auth_error_message');
+    if (authErrorMessage) {
+      setGeneralError(authErrorMessage);
+      sessionStorage.removeItem('auth_error_message');
+    }
   }, [setFocus]);
 
   const onSubmit = async (data: LoginFormData) => {
     setGeneralError(null);
     setIsLoading(true);
-
     try {
-      await new Promise(resolve => setTimeout(resolve, 1500));
-
-      console.log('Login com:', {
+      const response = await api.post('/auth/login', {
         email: data.email,
-        password: data.password,
-        rememberMe: data.rememberMe
+        senha: data.password
       });
+      const dataResponse = response.data as { access_token?: string; token?: string };
+      const token = dataResponse.access_token || dataResponse.token;
+      if (token) {
+        localStorage.setItem('token', token);
+        localStorage.setItem('userEmail', data.email);
+        navigate('/contacts');
+      } else {
+        setGeneralError('Token não recebido.');
+      }
+    } catch (err: unknown) {
+      interface ErrorResponse {
+        response?: {
+          data?: {
+            message?: string;
+          };
+        };
+      }
 
-      alert('Login realizado com sucesso!');
-    } catch {
-      setGeneralError('Falha na autenticação. Verifique suas credenciais.');
+      const errorObj = err as ErrorResponse;
+
+      if (
+        typeof err === 'object' &&
+        err !== null &&
+        errorObj.response &&
+        typeof errorObj.response === 'object' &&
+        errorObj.response.data &&
+        typeof errorObj.response.data === 'object' &&
+        errorObj.response.data.message
+      ) {
+        setGeneralError(errorObj.response.data.message as string);
+      } else {
+        setGeneralError('Falha na autenticação. Verifique suas credenciais.');
+      }
     } finally {
       setIsLoading(false);
     }
@@ -65,7 +99,7 @@ function Login() {
       <Styles.FormSection>
         <Styles.Header>
           <Styles.CreateAccountText>
-            Não tem uma conta? <Styles.CreateAccountLink href="#">Criar conta</Styles.CreateAccountLink>
+            Não tem uma conta?<Styles.CreateAccountLink as="a" href="/register"> Criar conta</Styles.CreateAccountLink>
           </Styles.CreateAccountText>
         </Styles.Header>
 

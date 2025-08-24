@@ -2,17 +2,18 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
+import * as bodyParser from 'body-parser';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  // Habilitando CORS
+  app.use(bodyParser.json({ limit: '5mb' }));
+  app.use(bodyParser.urlencoded({ limit: '5mb', extended: true }));
+
   app.enableCors();
 
-  // Configurando validação automática
   app.useGlobalPipes(new ValidationPipe());
 
-  // Configuração do Swagger
   const config = new DocumentBuilder()
     .setTitle('Guard - Gerenciador de Contatos')
     .setDescription('API para gerenciamento de contatos')

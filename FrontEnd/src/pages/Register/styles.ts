@@ -1,20 +1,5 @@
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 import backgroundBlur from '../../assets/imgs/backgroundBlur.png';
-
-const rotate = keyframes`
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-`;
-
-export const SpinAnimation = styled.span`
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
-  svg {
-    animation: ${rotate} 0.8s linear infinite;
-  }
-`;
 
 export const PageContainer = styled.div`
   display: flex;
@@ -23,7 +8,7 @@ export const PageContainer = styled.div`
   overflow: hidden;
 `;
 
-export const BackgroundSection = styled.div`
+export const BackgroundSection = styled.section`
   flex: 1;
   background-image: url('${backgroundBlur}');
   background-size: cover;
@@ -58,7 +43,7 @@ export const LogoContainer = styled.div`
   z-index: 2;
 `;
 
-export const FormSection = styled.div`
+export const FormSection = styled.section`
   width: 497px;
   height: 100vh;
   background-color: ${({ theme }) => theme.colors.background.primary};
@@ -95,18 +80,6 @@ export const CreateAccountText = styled.p`
   white-space: nowrap;
 `;
 
-export const CreateAccountLink = styled.a`
-  color: ${({ theme }) => theme.colors.accent.brand};
-  font-weight: 500;
-  font-size: 0.75rem;
-  text-decoration: none;
-  margin-left: 4px;
-  
-  &:hover {
-    text-decoration: underline;
-  }
-`;
-
 export const FormContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -117,23 +90,24 @@ export const FormContainer = styled.div`
 export const Title = styled.h1`
   font-size: 1.8rem;
   color: ${({ theme }) => theme.colors.content.heading};
-  margin-bottom: 40px;
+  margin-top: 20px;
+  margin-bottom: 30px;
   font-weight: 600;
 `;
 
 export const Form = styled.form`
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 16px;
   width: 100%;
 `;
 
 export const FormGroup = styled.div`
-  margin-bottom: ${({ theme }) => theme.spacing.sm};
+  margin-bottom: 4px;  /* Reduzido o espaçamento inferior */
 `;
 
 export const Label = styled.label`
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   color: ${({ theme }) => theme.colors.content.primary};
   margin-bottom: 6px;
   display: block;
@@ -154,13 +128,13 @@ export const Input = styled.input`
   border: 1px solid ${({ theme }) => theme.colors.background.tertiary};
   border-radius: 10px;
   color: ${({ theme }) => theme.colors.content.primary};
-  font-size: 0.9rem;
-  margin-bottom: 12px;
+  font-size: 0.85rem;
+  margin-bottom: 10px;
   height: 38px;
   
   &::placeholder {
     color: ${({ theme }) => theme.colors.content.placeholder};
-    font-size: 0.85rem;
+    font-size: 0.8rem;
   }
   
   &:focus {
@@ -177,27 +151,45 @@ export const Input = styled.input`
   }
 `;
 
-export const InputButton = styled.button`
-  position: absolute;
-  right: ${({ theme }) => theme.spacing.md};
-  top: 50%;
-  transform: translateY(-50%);
-  background: none;
-  border: none;
+export const ErrorMessage = styled.span`
+  color: ${({ theme }) => theme.colors.accent.red};
+  font-size: 0.7rem;  /* Tamanho do texto de erro reduzido */
+  margin-top: 2px;
+  display: block;
+`;
+
+export const ValidationList = styled.ul`
+  list-style: none;
   padding: 0;
-  cursor: pointer;
-  color: ${({ theme }) => theme.colors.content.muted};
+  margin: 8px 0 0 0;
+`;
+
+export const ValidationIcon = styled.span<{ valid: boolean }>`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: ${({ valid }) => valid ? '#C4F120' : '#ff3b3b'};
   
-  &:hover {
-    color: ${({ theme }) => theme.colors.content.primary};
+  svg {
+    color: #000000;
+    width: 12px;
+    height: 12px;
   }
 `;
 
-export const PasswordToggleButton = styled(InputButton)``;
+export const ValidationItem = styled.li<{ invalid: boolean }>`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: ${({ theme }) => theme.colors.content.heading};
+  font-size: 0.8rem;
+  margin-bottom: 6px;
+`;
 
-export const ClearButton = styled(InputButton)``;
-
-export const Button = styled.button`
+export const SubmitButton = styled.button`
   width: 134px;
   height: 46px;
   padding: 0;
@@ -213,7 +205,7 @@ export const Button = styled.button`
   align-items: center;
   justify-content: center;
   gap: 8px;
-  margin-top: 32px;
+  margin-top: 24px;
   margin-left: auto;
   white-space: nowrap;
   
@@ -224,36 +216,5 @@ export const Button = styled.button`
   &:disabled {
     background-color: ${({ theme }) => theme.colors.content.muted};
     cursor: not-allowed;
-  }
-`;
-
-export const ErrorMessage = styled.div`
-  background-color: rgba(230, 30, 50, 0.1);
-  border: 1px solid ${({ theme }) => theme.colors.accent.red};
-  color: ${({ theme }) => theme.colors.accent.red};
-  padding: ${({ theme }) => theme.spacing.sm};
-  border-radius: ${({ theme }) => theme.borderRadius.sm};
-  margin-bottom: ${({ theme }) => theme.spacing.md};
-  font-size: ${({ theme }) => theme.fontSize.textSmall};
-`;
-
-export const ErrorText = styled.span`
-  color: ${({ theme }) => theme.colors.accent.red};
-  font-size: ${({ theme }) => theme.fontSize.textSmall};
-  margin-top: ${({ theme }) => theme.spacing.xs};
-  display: block;
-`;
-
-export const ForgotPasswordLink = styled.a`
-  color: ${({ theme }) => theme.colors.accent.brand};
-  font-size: 0.8rem;
-  text-align: right;
-  display: block;
-  margin-top: 4px;
-  font-weight: 500;
-  width: 100%;
-  
-  &:hover {
-    text-decoration: underline;
   }
 `;
