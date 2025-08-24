@@ -36,7 +36,8 @@ export default function Contacts() {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [contactToDelete, setContactToDelete] = useState<ContactType | null>(null);
 
-  useEffect(() => {
+  // Função para buscar contatos do backend
+  const fetchContacts = () => {
     api.get('/contacts')
       .then(response => {
         if (Array.isArray(response.data)) {
@@ -53,6 +54,10 @@ export default function Contacts() {
           setContacts([]);
         }
       });
+  };
+
+  useEffect(() => {
+    fetchContacts();
   }, []);
 
   const filteredContacts = contacts.filter(
@@ -188,36 +193,31 @@ export default function Contacts() {
             isOpen={editModalOpen}
             contact={selectedContact}
             onClose={() => setEditModalOpen(false)}
-            onSave={updated => {
-              setContacts(prev => prev.map(ct => ct.id === updated.id ? updated : ct));
+            onSave={() => {
+              fetchContacts();
+              setEditModalOpen(false);
             }}
-            onDelete={id => {
-              setContacts(prev => prev.filter(ct => ct.id !== id));
+            onDelete={() => {
+              fetchContacts();
+              setEditModalOpen(false);
             }}
           />
         </Styles.MainCard>
         <AddContactModal
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
-          onSave={contact => setContacts(prev => [
-            ...prev,
-            {
-              id: prev.length + 1,
-              name: contact.name,
-              phone: contact.phone,
-              email: contact.email,
-              avatar: contact.avatar,
-              type: '',
-            }
-          ])}
+          onSave={() => {
+            fetchContacts();
+            setIsModalOpen(false);
+          }}
         />
         <DeleteContactModal
           isOpen={deleteModalOpen}
           contactId={contactToDelete?.id ?? ''}
           contactName={contactToDelete?.name}
           onClose={() => setDeleteModalOpen(false)}
-          onDelete={id => {
-            setContacts(prev => prev.filter(ct => ct.id !== id));
+          onDelete={() => {
+            fetchContacts();
             setDeleteModalOpen(false);
           }}
         />
