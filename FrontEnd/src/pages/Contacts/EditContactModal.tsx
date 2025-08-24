@@ -4,7 +4,7 @@ import * as Styles from './addContactModalStyles';
 import api from '../../services/api';
 
 type ContactType = {
-  id: number;
+  id: number | string;
   name: string;
   type: string;
   phone: string;

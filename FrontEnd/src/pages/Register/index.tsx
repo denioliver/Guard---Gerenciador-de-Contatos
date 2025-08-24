@@ -92,19 +92,19 @@ export default function Register() {
 
             <Styles.ValidationList>
               <Styles.ValidationItem invalid={!(senha && senha.length >= 8)}>
-                <Styles.ValidationIcon valid={senha && senha.length >= 8}>
+                <Styles.ValidationIcon valid={senha && senha.length >= 8 ? true : false}>
                   {senha && senha.length >= 8 ? <FiCheck /> : <FiX />}
                 </Styles.ValidationIcon>
                 Pelo menos 8 caracteres
               </Styles.ValidationItem>
               <Styles.ValidationItem invalid={!(senha && /[0-9!@#$%^&*]/.test(senha))}>
-                <Styles.ValidationIcon valid={senha && /[0-9!@#$%^&*]/.test(senha)}>
+                <Styles.ValidationIcon valid={senha && /[0-9!@#$%^&*]/.test(senha) ? true : false}>
                   {senha && /[0-9!@#$%^&*]/.test(senha) ? <FiCheck /> : <FiX />}
                 </Styles.ValidationIcon>
                 Contém um número ou símbolo
               </Styles.ValidationItem>
               <Styles.ValidationItem invalid={!(senha && confirmarSenha && senha === confirmarSenha)}>
-                <Styles.ValidationIcon valid={senha && confirmarSenha && senha === confirmarSenha}>
+                <Styles.ValidationIcon valid={senha && confirmarSenha && senha === confirmarSenha ? true : false}>
                   {senha && confirmarSenha && senha === confirmarSenha ? <FiCheck /> : <FiX />}
                 </Styles.ValidationIcon>
                 As senhas devem ser iguais

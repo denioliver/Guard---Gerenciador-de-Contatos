@@ -27,7 +27,7 @@ const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M'
 
 export default function Contacts() {
   const navigate = useNavigate();
-  const [hiddenContacts, setHiddenContacts] = useState<number[]>([]);
+  const [hiddenContacts, setHiddenContacts] = useState<(number | string)[]>([]);
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [selectedContact, setSelectedContact] = useState<ContactType | null>(null);
   const [selectedLetter, setSelectedLetter] = useState('');
@@ -47,14 +47,19 @@ export default function Contacts() {
     api.get('/contacts')
       .then(response => {
         if (Array.isArray(response.data)) {
-          const mappedContacts = response.data.map((c: { _id?: string, id?: number, nome?: string, name?: string, type?: string, telefone?: string, phone?: string, email?: string, avatar?: string }) => ({
-            id: c._id || c.id,
-            name: c.nome || c.name || '',
-            type: c.type || '',
-            phone: c.telefone || c.phone || '',
-            email: c.email || '',
-            avatar: c.avatar || '',
-          }));
+          const mappedContacts = response.data.map((c: { _id?: string, id?: number, nome?: string, name?: string, type?: string, telefone?: string, phone?: string, email?: string, avatar?: string }) => {
+            // Garantir que o id seja sempre um valor válido (string ou número)
+            const contactId = c._id || c.id || Math.random().toString(36).substring(2, 9);
+            
+            return {
+              id: contactId,
+              name: c.nome || c.name || '',
+              type: c.type || '',
+              phone: c.telefone || c.phone || '',
+              email: c.email || '',
+              avatar: c.avatar || '',
+            };
+          });
           setContacts(mappedContacts);
         } else {
           setContacts([]);
@@ -78,8 +83,9 @@ export default function Contacts() {
 
         api.get('/auth/profile')
           .then(response => {
-            if (response.data && response.data.email) {
-              setUserEmail(response.data.email);
+            // Verificar se response.data é um objeto e se tem uma propriedade email
+            if (response.data && typeof response.data === 'object' && 'email' in response.data) {
+              setUserEmail(response.data.email as string);
             }
           })
           .catch(() => {
