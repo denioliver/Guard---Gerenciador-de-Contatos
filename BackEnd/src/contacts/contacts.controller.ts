@@ -17,6 +17,16 @@ import { ContactsService } from './contacts.service';
 import { CreateContactDto } from './dto/create-contact.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
+// Tipo definido diretamente para solucionar o problema de compilação
+interface MulterFile {
+  fieldname: string;
+  originalname: string;
+  encoding: string;
+  mimetype: string;
+  buffer: Buffer;
+  size: number;
+}
+
 @Controller('contacts')
 @UseGuards(JwtAuthGuard)
 export class ContactsController {
@@ -25,7 +35,7 @@ export class ContactsController {
   @Post()
   @UseInterceptors(FileInterceptor('avatar'))
   async create(
-    @UploadedFile() file: Express.Multer.File,
+    @UploadedFile() file: MulterFile,
     @Body() body: any,
     @Request() req: any
   ) {
