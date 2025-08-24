@@ -30,7 +30,18 @@ export const BackgroundSection = styled.div`
   background-position: center;
   display: flex;
   align-items: flex-start;
-  padding: ${({ theme }) => theme.spacing.lg};
+  padding: 40px;
+  position: relative;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(22, 22, 22, 0.1);
+  }
   
   @media (max-width: 768px) {
     display: none;
@@ -38,16 +49,23 @@ export const BackgroundSection = styled.div`
 `;
 
 export const LogoContainer = styled.div`
-  padding: ${({ theme }) => theme.spacing.md};
+  position: absolute;
+  left: 40px;
+  top: 40px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  z-index: 2;
 `;
 
 export const FormSection = styled.div`
-  width: 40%;
-  min-width: 450px;
+  width: 497px;
+  height: 100vh;
   background-color: ${({ theme }) => theme.colors.background.primary};
   display: flex;
   flex-direction: column;
-  padding: ${({ theme }) => theme.spacing.lg};
+  padding: 40px 60px;
+  justify-content: center;
   
   @media (max-width: 768px) {
     width: 100%;
@@ -57,21 +75,32 @@ export const FormSection = styled.div`
 
 export const Header = styled.header`
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
-  width: 100%;
-  margin-bottom: ${({ theme }) => theme.spacing.xl};
+  position: absolute;
+  top: 40px;
+  right: 88px;
+  width: 160px;
+  
+  @media (max-width: 768px) {
+    right: 40px;
+  }
 `;
 
 export const CreateAccountText = styled.p`
-  font-size: ${({ theme }) => theme.fontSize.textMedium};
-  color: ${({ theme }) => theme.colors.content.muted};
+  font-size: 0.75rem;
+  color: ${({ theme }) => theme.colors.content.heading};
+  margin: 0;
+  text-align: right;
+  white-space: nowrap;
 `;
 
 export const CreateAccountLink = styled.a`
   color: ${({ theme }) => theme.colors.accent.brand};
-  font-weight: 600;
+  font-weight: 500;
+  font-size: 0.75rem;
   text-decoration: none;
+  margin-left: 4px;
   
   &:hover {
     text-decoration: underline;
@@ -81,21 +110,21 @@ export const CreateAccountLink = styled.a`
 export const FormContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: 100%;
-  max-width: 400px;
+  width: 321px;
   margin: 0 auto;
 `;
 
 export const Title = styled.h1`
-  font-size: ${({ theme }) => theme.fontSize.heading};
+  font-size: 1.8rem;
   color: ${({ theme }) => theme.colors.content.heading};
-  margin-bottom: ${({ theme }) => theme.spacing.lg};
+  margin-bottom: 40px;
+  font-weight: 600;
 `;
 
 export const Form = styled.form`
   display: flex;
   flex-direction: column;
-  gap: ${({ theme }) => theme.spacing.md};
+  gap: 20px;
   width: 100%;
 `;
 
@@ -104,10 +133,13 @@ export const FormGroup = styled.div`
 `;
 
 export const Label = styled.label`
-  font-size: ${({ theme }) => theme.fontSize.labelMedium};
+  font-size: 0.9rem;
   color: ${({ theme }) => theme.colors.content.primary};
-  margin-bottom: ${({ theme }) => theme.spacing.xs};
+  margin-bottom: 6px;
   display: block;
+  font-weight: 500;
+  text-align: left;
+  width: 100%;
 `;
 
 export const InputContainer = styled.div`
@@ -117,15 +149,18 @@ export const InputContainer = styled.div`
 
 export const Input = styled.input`
   width: 100%;
-  padding: ${({ theme }) => theme.spacing.md};
+  padding: 10px 14px;
   background-color: ${({ theme }) => theme.colors.background.secondary};
   border: 1px solid ${({ theme }) => theme.colors.background.tertiary};
-  border-radius: ${({ theme }) => theme.borderRadius.md};
+  border-radius: 10px;
   color: ${({ theme }) => theme.colors.content.primary};
-  font-size: ${({ theme }) => theme.fontSize.textMedium};
+  font-size: 0.9rem;
+  margin-bottom: 12px;
+  height: 38px;
   
   &::placeholder {
     color: ${({ theme }) => theme.colors.content.placeholder};
+    font-size: 0.85rem;
   }
   
   &:focus {
@@ -163,21 +198,24 @@ export const PasswordToggleButton = styled(InputButton)``;
 export const ClearButton = styled(InputButton)``;
 
 export const Button = styled.button`
-  width: 100%;
-  padding: ${({ theme }) => theme.spacing.md};
+  width: 134px;
+  height: 46px;
+  padding: 0;
   background-color: ${({ theme }) => theme.colors.accent.brand};
   color: ${({ theme }) => theme.colors.background.primary};
   border: none;
-  border-radius: ${({ theme }) => theme.borderRadius.md};
-  font-size: ${({ theme }) => theme.fontSize.textMedium};
+  border-radius: 10px;
+  font-size: 0.9rem;
   font-weight: 600;
   cursor: pointer;
-  transition: filter 0.2s;
+  transition: background 0.2s;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: ${({ theme }) => theme.spacing.xs};
-  min-height: 48px;
+  gap: 8px;
+  margin-top: 32px;
+  margin-left: auto;
+  white-space: nowrap;
   
   &:hover {
     filter: brightness(1.1);
@@ -208,11 +246,12 @@ export const ErrorText = styled.span`
 
 export const ForgotPasswordLink = styled.a`
   color: ${({ theme }) => theme.colors.accent.brand};
-  font-size: ${({ theme }) => theme.fontSize.textSmall};
+  font-size: 0.8rem;
   text-align: right;
   display: block;
-  margin-top: ${({ theme }) => theme.spacing.xs};
+  margin-top: 4px;
   font-weight: 500;
+  width: 100%;
   
   &:hover {
     text-decoration: underline;

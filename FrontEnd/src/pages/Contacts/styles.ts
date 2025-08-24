@@ -7,45 +7,64 @@ export const Container = styled.div`
 `;
 
 export const Sidebar = styled.aside`
-  width: 90px;
-  background: #181818;
+  width: 150px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  padding: 32px 0 24px 0;
+  padding: 30px 0 12px 0;
+  position: relative;
 `;
 
 export const Menu = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 16px;
   margin-top: 60px;
+  flex: 1;
+  justify-content: flex-start;
 `;
 
 export const MenuItem = styled.button<{ $active?: boolean }>`
-  background: ${({ $active }) => ($active ? '#D6FF4B' : 'transparent')};
-  color: ${({ $active }) => ($active ? '#222' : '#bdbdbd')};
+  background: ${({ $active }) => ($active ? '#333' : 'transparent')};
+  color: ${({ $active }) => ($active ? '#D6FF4B' : '#999')};
   border: none;
-  border-radius: 8px;
-  padding: 12px;
-  font-size: 22px;
+  border-radius: 12px;
+  padding: 10px;
+  font-size: 20px;
+  width: 46px;
+  height: 46px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.2s;
+  transition: all 0.2s;
+  
+  &:hover {
+    background: ${({ $active }) => ($active ? '#333' : '#222')};
+    color: ${({ $active }) => ($active ? '#D6FF4B' : '#D6FF4B')};
+  }
+  
+  svg {
+    width: 22px;
+    height: 22px;
+    display: block;
+  }
 `;
 
 export const LoggedInfo = styled.div`
-  color: #bdbdbd;
-  font-size: 13px;
-  text-align: center;
-  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  position: relative;
+  color: #999;
+  font-size: 8px;
+  margin: 20px 50px;
+  padding: 0 5px;
+  
   span {
-    color: #fff;
-    font-weight: 600;
-    font-size: 13px;
+    color: #D6FF4B;
+    font-weight: 500;
+    font-size: 8px;
   }
 `;
 
@@ -53,121 +72,196 @@ export const Content = styled.main`
   flex: 1;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   justify-content: flex-start;
-  padding: 48px 0 0 0;
+  padding: 20px 0 0 0;
 `;
 
-export const Header = styled.div`
+export const CardHeader = styled.div`
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 48px;
+  margin-bottom: 24px;
+  flex-shrink: 0;
 `;
 
 export const Title = styled.h1`
   color: #fff;
-  font-size: 2rem;
+  font-size: 1.5rem;
+  font-weight: 500;
 `;
 
 export const SearchAdd = styled.div`
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 10px;
 `;
 
 export const SearchBox = styled.div`
-  background: #181818;
-  border-radius: 8px;
+  background: #222;
+  border-radius: 6px;
   display: flex;
   align-items: center;
-  padding: 0 16px;
-  height: 44px;
+  padding: 0 12px;
+  height: 36px;
   color: #bdbdbd;
   input {
     background: transparent;
     border: none;
     color: #fff;
-    font-size: 16px;
-    margin-left: 8px;
+    font-size: 14px;
+    margin-left: 6px;
     outline: none;
-    width: 180px;
+    width: 160px;
+    &::placeholder {
+      color: #888;
+    }
+  }
+`;
+
+export const AddButtonWrapper = styled.div`
+  position: relative;
+`;
+
+export const SpecialTooltip = styled.div<{ $show: boolean }>`
+  position: absolute;
+  bottom: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #D6FF4B;
+  color: #222;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  opacity: ${({ $show }) => ($show ? 1 : 0)};
+  transition: opacity 0.3s;
+  pointer-events: none;
+  z-index: 10;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-bottom: 6px solid #D6FF4B;
   }
 `;
 
 export const AddButton = styled.button`
-  background: #222;
+  background: #333;
   color: #fff;
   border: none;
-  border-radius: 8px;
-  padding: 0 18px;
-  height: 44px;
-  font-size: 16px;
-  font-weight: 600;
+  border-radius: 6px;
+  padding: 0 14px;
+  height: 36px;
+  font-size: 14px;
+  font-weight: 500;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   cursor: pointer;
   transition: background 0.2s;
   &:hover {
-    background: #333;
+    background: #444;
   }
 `;
 
 export const MainCard = styled.div`
   background: #181818;
-  border-radius: 36px;
-  margin: 32px 0 0 48px;
-  padding: 32px 40px;
-  width: 1100px;
-  min-height: 600px;
+  border-radius: 24px;
+  margin: 24px auto 0;
+  padding: 24px 32px 24px 60px;
+  width: 950px;
+  height: 500px;
   display: flex;
+  flex-direction: column;
   position: relative;
+  overflow: hidden;
 `;
 
 export const LetterBar = styled.div`
   position: absolute;
-  left: -60px;
-  top: 32px;
-  width: 60px;
+  left: 10px;
+  top: 24px;
+  width: 36px;
   background: #D6FF4B;
-  border-radius: 24px;
+  border-radius: 16px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 16px 0;
-  gap: 8px;
+  padding: 10px 0;
+  gap: 2px;
 `;
 
 export const LetterItem = styled.button<{ $active?: boolean }>`
   border: none;
   color: ${({ $active }) => ($active ? '#222' : '#222')};
   font-weight: ${({ $active }) => ($active ? 'bold' : 'normal')};
-  font-size: 18px;
-  padding: 6px 0;
+  font-size: 13px;
+  padding: 3px 0;
   width: 100%;
-  border-radius: 8px;
+  border-radius: 6px;
   background: ${({ $active }) => ($active ? '#fff' : 'transparent')};
   cursor: pointer;
   transition: background 0.2s;
 `;
 
+export const TableContainer = styled.div`
+  width: 100%;
+  margin-left: 0;
+  overflow-y: auto;
+  overflow-x: auto;
+  flex: 1;
+  max-height: calc(100% - 80px); /* Espaço para o cabeçalho */
+  scrollbar-width: thin;
+  scrollbar-color: #444 #222;
+  
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: #222;
+    border-radius: 4px;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background-color: #444;
+    border-radius: 4px;
+  }
+`;
+
 export const ContactsTable = styled.table`
   width: 100%;
   border-collapse: collapse;
-  margin-left: 80px;
+  
+  thead {
+    position: sticky;
+    top: 0;
+    background: #181818;
+    z-index: 1;
+  }
+  
   th {
     color: #bdbdbd;
-    font-size: 15px;
+    font-size: 11px;
     font-weight: 600;
     text-align: left;
-    padding-bottom: 12px;
+    padding-bottom: 8px;
+    text-transform: uppercase;
   }
+  
   td {
     color: #fff;
-    font-size: 16px;
-    padding: 18px 0;
+    font-size: 13px;
+    padding: 10px 0;
     border-bottom: 1px solid #222;
   }
 `;
@@ -175,46 +269,64 @@ export const ContactsTable = styled.table`
 export const ContactInfo = styled.div`
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 10px;
   img {
-    width: 48px;
-    height: 48px;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
     object-fit: cover;
   }
   div {
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    gap: 1px;
     strong {
       color: #fff;
-      font-size: 16px;
+      font-size: 13px;
     }
     span {
       color: #bdbdbd;
-      font-size: 14px;
+      font-size: 11px;
     }
   }
 `;
 
 export const Actions = styled.div`
   display: flex;
-  gap: 8px;
+  gap: 5px;
 `;
 
 export const ActionBtn = styled.button`
   background: #222;
   color: #fff;
   border: none;
-  border-radius: 8px;
-  padding: 6px 12px;
-  font-size: 15px;
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-size: 12px;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
   cursor: pointer;
   transition: background 0.2s;
   &:hover {
     background: #333;
+  }
+`;
+
+export const GlobalActionBtn = styled.button<{ $active?: boolean }>`
+  background: ${({ $active }) => ($active ? '#D6FF4B' : '#333')};
+  color: ${({ $active }) => ($active ? '#222' : '#fff')};
+  border: none;
+  border-radius: 6px;
+  padding: 0 12px;
+  height: 36px;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  &:hover {
+    background: ${({ $active }) => ($active ? '#c8f03e' : '#444')};
   }
 `;

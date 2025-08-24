@@ -54,6 +54,7 @@ function Login() {
       const token = dataResponse.access_token || dataResponse.token;
       if (token) {
         localStorage.setItem('token', token);
+        localStorage.setItem('userEmail', data.email);
         navigate('/contacts');
       } else {
         setGeneralError('Token não recebido.');
@@ -98,7 +99,7 @@ function Login() {
       <Styles.FormSection>
         <Styles.Header>
           <Styles.CreateAccountText>
-            Não tem uma conta? <Styles.CreateAccountLink as="a" href="/register">Criar conta</Styles.CreateAccountLink>
+            Não tem uma conta?<Styles.CreateAccountLink as="a" href="/register"> Criar conta</Styles.CreateAccountLink>
           </Styles.CreateAccountText>
         </Styles.Header>
 

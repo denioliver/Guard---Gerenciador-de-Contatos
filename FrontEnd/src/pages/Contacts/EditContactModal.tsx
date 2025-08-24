@@ -62,7 +62,14 @@ export default function EditContactModal({ isOpen, contact, onClose, onSave, onD
         avatar,
         type: contact.type,
       });
-      const data = response.data as any;
+      const data = response.data as {
+        _id?: number | string,
+        nome?: string,
+        telefone?: string,
+        email?: string,
+        avatar?: string,
+        type?: string
+      };
       onSave({
         id: data._id || contact.id,
         name: data.nome || name,
@@ -104,7 +111,7 @@ export default function EditContactModal({ isOpen, contact, onClose, onSave, onD
       <Styles.ModalContent>
         <Styles.ModalHeader>
           <span>Editar contato</span>
-          <button onClick={onClose}><FiX size={22} /></button>
+          <button onClick={onClose}><FiX /></button>
         </Styles.ModalHeader>
         <Styles.ModalBody>
           <Styles.AvatarBox>
@@ -134,14 +141,18 @@ export default function EditContactModal({ isOpen, contact, onClose, onSave, onD
           </Styles.FormGroup>
         </Styles.ModalBody>
         <Styles.ModalFooter>
-          <button onClick={handleDelete} style={{ background: '#222', color: '#ff3b3b', borderRadius: 8, padding: '12px 18px', fontWeight: 600, marginRight: 8, border: 'none', cursor: 'pointer' }}>
-            <FiTrash2 /> Apagar
-          </button>
-          <button onClick={() => setHidden(h => !h)} style={{ background: '#222', color: '#fff', borderRadius: 8, padding: '12px 18px', fontWeight: 600, marginRight: 8, border: 'none', cursor: 'pointer' }}>
-            {hidden ? <FiUnlock /> : <FiLock />} {hidden ? 'Mostrar' : 'Esconder'}
-          </button>
-          <Styles.CancelBtn onClick={handleCancel}>Cancelar</Styles.CancelBtn>
-          <Styles.SaveBtn onClick={handleSave}>Salvar</Styles.SaveBtn>
+          <div style={{ display: 'flex', gap: '8px' }}>
+            <button onClick={handleDelete} style={{ background: '#333', color: '#ff3b3b', borderRadius: 8, padding: '10px 14px', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px', fontSize: '14px' }}>
+              <FiTrash2 /> Apagar
+            </button>
+            <button onClick={() => setHidden(h => !h)} style={{ background: '#333', color: '#fff', borderRadius: 8, padding: '10px 14px', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px', fontSize: '14px' }}>
+              {hidden ? <FiUnlock /> : <FiLock />} {hidden ? 'Mostrar' : 'Esconder'}
+            </button>
+          </div>
+          <div style={{ display: 'flex', gap: '8px' }}>
+            <Styles.CancelBtn onClick={handleCancel}>Cancelar</Styles.CancelBtn>
+            <Styles.SaveBtn onClick={handleSave}>Salvar</Styles.SaveBtn>
+          </div>
         </Styles.ModalFooter>
       </Styles.ModalContent>
     </Styles.ModalOverlay>

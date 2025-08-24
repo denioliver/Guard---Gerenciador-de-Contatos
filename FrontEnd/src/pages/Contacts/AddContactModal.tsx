@@ -54,9 +54,10 @@ export default function AddContactModal({ isOpen, onClose, onSave }: AddContactM
       setEmail('');
       setAvatar(undefined);
       onClose();
-    } catch (error: any) {
+    } catch (error) {
       console.error('Erro ao salvar contato:', error);
-      alert('Erro ao salvar contato: ' + (error?.response?.data?.message || error.message));
+      const errorObj = error as { response?: { data?: { message?: string } }, message?: string };
+      alert('Erro ao salvar contato: ' + (errorObj?.response?.data?.message || errorObj.message || 'Erro desconhecido'));
     }
   }
 
@@ -73,7 +74,7 @@ export default function AddContactModal({ isOpen, onClose, onSave }: AddContactM
       <Styles.ModalContent>
         <Styles.ModalHeader>
           <span>Adicionar contato</span>
-          <button onClick={onClose}><FiX size={22} /></button>
+          <button onClick={onClose}><FiX /></button>
         </Styles.ModalHeader>
         <Styles.ModalBody>
           <Styles.AvatarBox>
@@ -83,7 +84,7 @@ export default function AddContactModal({ isOpen, onClose, onSave }: AddContactM
               <Styles.AvatarIcon><FiUser size={48} /></Styles.AvatarIcon>
             )}
             <Styles.UploadLabel htmlFor="avatar-upload">
-              <FiUpload /> + Adicionar foto
+              <FiUpload /> Adicionar foto
               <input id="avatar-upload" type="file" accept="image/*" onChange={handleAvatarChange} style={{ display: 'none' }} />
             </Styles.UploadLabel>
           </Styles.AvatarBox>
@@ -101,8 +102,11 @@ export default function AddContactModal({ isOpen, onClose, onSave }: AddContactM
           </Styles.FormGroup>
         </Styles.ModalBody>
         <Styles.ModalFooter>
-          <Styles.CancelBtn onClick={handleCancel}>Cancelar</Styles.CancelBtn>
-          <Styles.SaveBtn onClick={handleSave}>Salvar</Styles.SaveBtn>
+          <div></div>
+          <div style={{ display: 'flex', gap: '8px' }}>
+            <Styles.CancelBtn onClick={handleCancel}>Cancelar</Styles.CancelBtn>
+            <Styles.SaveBtn onClick={handleSave}>Salvar</Styles.SaveBtn>
+          </div>
         </Styles.ModalFooter>
       </Styles.ModalContent>
     </Styles.ModalOverlay>

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const ModalOverlay = styled.div`
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0,0,0,0.45);
+  background: rgba(0,0,0,0.7);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -12,9 +12,10 @@ export const ModalOverlay = styled.div`
 
 export const ModalContent = styled.div`
   background: #181818;
-  border-radius: 24px;
+  border-radius: 12px;
   width: 370px;
-  padding: 32px 28px 24px 28px;
+  max-width: 90%;
+  padding: 24px;
   box-shadow: 0 8px 32px rgba(0,0,0,0.25);
   display: flex;
   flex-direction: column;
@@ -28,6 +29,18 @@ export const ModalHeader = styled.div`
   color: #fff;
   font-weight: bold;
   margin-bottom: 18px;
+  
+  button {
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-size: 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+  }
 `;
 
 export const ModalBody = styled.div`
@@ -63,17 +76,20 @@ export const AvatarIcon = styled.div`
 `;
 
 export const UploadLabel = styled.label`
-  background: #222;
+  background: #333;
   color: #fff;
   border-radius: 8px;
   padding: 8px 16px;
-  font-size: 15px;
-  font-weight: 500;
+  font-size: 14px;
   display: flex;
   align-items: center;
   gap: 8px;
   cursor: pointer;
-  margin-top: 4px;
+  margin-top: 8px;
+  transition: background 0.2s;
+  &:hover {
+    background: #444;
+  }
 `;
 
 export const FormGroup = styled.div`
@@ -101,9 +117,8 @@ export const Input = styled.input`
 
 export const ModalFooter = styled.div`
   display: flex;
-  justify-content: flex-end;
-  gap: 12px;
-  margin-top: 24px;
+  justify-content: space-between;
+  margin-top: 30px;
 `;
 
 export const CancelBtn = styled.button`
@@ -111,9 +126,8 @@ export const CancelBtn = styled.button`
   color: #fff;
   border: none;
   border-radius: 8px;
-  padding: 12px 24px;
-  font-size: 16px;
-  font-weight: 600;
+  padding: 12px 18px;
+  font-size: 14px;
   cursor: pointer;
   transition: background 0.2s;
   &:hover {
@@ -126,9 +140,8 @@ export const SaveBtn = styled.button`
   color: #222;
   border: none;
   border-radius: 8px;
-  padding: 12px 24px;
-  font-size: 16px;
-  font-weight: 600;
+  padding: 12px 18px;
+  font-size: 14px;
   cursor: pointer;
   transition: background 0.2s;
   &:hover {

@@ -7,7 +7,7 @@ import axios from 'axios';
 import { registerSchema } from './schema';
 import Logo from '../../components/Logo';
 import * as Styles from './styles';
-import { FiX } from 'react-icons/fi';
+import { FiX, FiCheck } from 'react-icons/fi';
 
 export default function Register() {
   const navigate = useNavigate();
@@ -50,7 +50,7 @@ export default function Register() {
       <Styles.FormSection>
         <Styles.Header>
           <Styles.CreateAccountText>
-            Já tem uma conta? <Link to="/" style={{ color: '#D6FF4B', fontWeight: 600 }}>Acessar conta</Link>
+            Já tem uma conta?<Link to="/" style={{ color: '#C4F120', fontWeight: 500, fontSize: '0.75rem', marginLeft: '4px', textDecoration: 'none' }}>Acessar conta</Link>
           </Styles.CreateAccountText>
         </Styles.Header>
 
@@ -60,37 +60,54 @@ export default function Register() {
           <Styles.Form onSubmit={handleSubmit(onSubmit)}>
             <Styles.FormGroup>
               <Styles.Label>Nome</Styles.Label>
-              <Styles.Input {...register('nome')} placeholder="Como você se chama?" />
+              <Styles.InputContainer>
+                <Styles.Input {...register('nome')} placeholder="Como você se chama?" className={errors.nome ? 'error' : ''} />
+              </Styles.InputContainer>
               {errors.nome && <Styles.ErrorMessage>{errors.nome.message}</Styles.ErrorMessage>}
             </Styles.FormGroup>
 
             <Styles.FormGroup>
               <Styles.Label>E-mail</Styles.Label>
-              <Styles.Input {...register('email')} placeholder="Seu e-mail aqui" />
+              <Styles.InputContainer>
+                <Styles.Input {...register('email')} placeholder="Seu e-mail aqui" className={errors.email ? 'error' : ''} />
+              </Styles.InputContainer>
               {errors.email && <Styles.ErrorMessage>{errors.email.message}</Styles.ErrorMessage>}
             </Styles.FormGroup>
 
             <Styles.FormGroup>
               <Styles.Label>Senha</Styles.Label>
-              <Styles.Input type="password" {...register('senha')} placeholder="Escolha uma senha segura" />
+              <Styles.InputContainer>
+                <Styles.Input type="password" {...register('senha')} placeholder="Escolha uma senha segura" className={errors.senha ? 'error' : ''} />
+              </Styles.InputContainer>
               {errors.senha && <Styles.ErrorMessage>{errors.senha.message}</Styles.ErrorMessage>}
             </Styles.FormGroup>
 
             <Styles.FormGroup>
               <Styles.Label>Repetir a senha</Styles.Label>
-              <Styles.Input type="password" {...register('confirmarSenha')} placeholder="Repita sua senha para confirmar" />
+              <Styles.InputContainer>
+                <Styles.Input type="password" {...register('confirmarSenha')} placeholder="Repita sua senha para confirmar" className={errors.confirmarSenha ? 'error' : ''} />
+              </Styles.InputContainer>
               {errors.confirmarSenha && <Styles.ErrorMessage>{errors.confirmarSenha.message}</Styles.ErrorMessage>}
             </Styles.FormGroup>
 
             <Styles.ValidationList>
               <Styles.ValidationItem invalid={!(senha && senha.length >= 8)}>
-                <FiX /> Pelo menos 8 caracteres
+                <Styles.ValidationIcon valid={senha && senha.length >= 8}>
+                  {senha && senha.length >= 8 ? <FiCheck /> : <FiX />}
+                </Styles.ValidationIcon>
+                Pelo menos 8 caracteres
               </Styles.ValidationItem>
               <Styles.ValidationItem invalid={!(senha && /[0-9!@#$%^&*]/.test(senha))}>
-                <FiX /> Contém um número ou símbolo
+                <Styles.ValidationIcon valid={senha && /[0-9!@#$%^&*]/.test(senha)}>
+                  {senha && /[0-9!@#$%^&*]/.test(senha) ? <FiCheck /> : <FiX />}
+                </Styles.ValidationIcon>
+                Contém um número ou símbolo
               </Styles.ValidationItem>
               <Styles.ValidationItem invalid={!(senha && confirmarSenha && senha === confirmarSenha)}>
-                <FiX /> As senhas devem ser iguais
+                <Styles.ValidationIcon valid={senha && confirmarSenha && senha === confirmarSenha}>
+                  {senha && confirmarSenha && senha === confirmarSenha ? <FiCheck /> : <FiX />}
+                </Styles.ValidationIcon>
+                As senhas devem ser iguais
               </Styles.ValidationItem>
             </Styles.ValidationList>
 
