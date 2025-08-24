@@ -216,9 +216,6 @@ function Login() {
               {errors.password && (
                 <Styles.ErrorText>{errors.password.message}</Styles.ErrorText>
               )}
-              <Styles.ForgotPasswordLink href="#" onClick={e => { e.preventDefault(); setIsForgotPasswordModalOpen(true); }}>
-                Esqueci minha senha
-              </Styles.ForgotPasswordLink>
             </Styles.FormGroup>
 
             <Controller
