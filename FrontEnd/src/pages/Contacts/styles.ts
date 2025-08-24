@@ -161,6 +161,19 @@ export const AddButton = styled.button`
   padding: 0 14px;
   height: 36px;
   font-size: 14px;
+      @media (max-width: 700px) {
+        position: static;
+        width: 100%;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        border-radius: 8px;
+        padding: 4px 0;
+        margin-bottom: 8px;
+        max-height: none;
+        overflow-x: auto;
+        overflow-y: hidden;
+      }
   font-weight: 500;
   display: flex;
   align-items: center;
@@ -183,6 +196,18 @@ export const MainCard = styled.div`
   flex-direction: column;
   position: relative;
   overflow: hidden;
+    @media (max-width: 1100px) {
+      width: 98vw;
+      padding: 16px 8vw 16px 40px;
+      min-width: 0;
+    }
+    @media (max-width: 700px) {
+      width: 100vw;
+      min-width: 0;
+      padding: 12px 2vw 12px 12px;
+      border-radius: 12px;
+      height: auto;
+    }
 `;
 
 export const LetterBar = styled.div`
@@ -237,6 +262,11 @@ export const TableContainer = styled.div`
   scrollbar-width: thin;
   scrollbar-color: #444 #222;
   padding-right: 8px; /* Espaço para a barra de rolagem */
+    @media (max-width: 700px) {
+      max-height: none;
+      padding-right: 0;
+      overflow-x: auto;
+    }
   
   &::-webkit-scrollbar {
     width: 8px;
@@ -280,6 +310,16 @@ export const ContactsTable = styled.table`
     padding: 10px 0;
     border-bottom: 1px solid #222;
   }
+    @media (max-width: 700px) {
+      th, td {
+        font-size: 11px;
+        padding: 6px 2px;
+      }
+      td {
+        word-break: break-word;
+        max-width: 120px;
+      }
+    }
 `;
 
 export const ContactInfo = styled.div`
