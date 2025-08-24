@@ -1,7 +1,21 @@
 import axios from 'axios';
 
+// Função para tentar conectar em diferentes portas
+const getBaseURL = () => {
+  // Ordem de prioridade: VITE_API_URL > .env > portas padrão
+  if (import.meta.env.VITE_API_URL) {
+    return import.meta.env.VITE_API_URL;
+  }
+
+  // Lista de portas para tentar
+  const portOptions = [3000, 3001, 3002, 3003];
+
+  // Por padrão, começa com a porta 3000
+  return `http://localhost:${portOptions[0]}`;
+};
+
 const api = axios.create({
-  baseURL: 'http://localhost:3000',
+  baseURL: getBaseURL(),
 });
 
 api.interceptors.request.use(config => {

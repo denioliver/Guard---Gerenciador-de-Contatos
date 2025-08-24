@@ -1,0 +1,31 @@
+{
+  "name": "guard---gerenciador-de-contatos",
+  "version": "1.0.0",
+  "description": "Um sistema completo de gerenciamento de contatos com autenticação de usuários, upload de imagens e interface moderna desenvolvida com React e NestJS.",
+  "private": true,
+  "scripts": {
+    "dev:backend": "cd BackEnd && npm install && npm run start:dev",
+    "dev:frontend": "cd FrontEnd && npm install && npm run dev",
+    "dev": "concurrently \"npm --prefix BackEnd run start:dev\" \"npm --prefix FrontEnd run dev\"",
+    "build:backend": "npm --prefix BackEnd run build",
+    "build:frontend": "npm --prefix FrontEnd run build",
+    "build": "npm run build:backend && npm run build:frontend",
+    "start:backend": "npm --prefix BackEnd run start",
+    "start:backend:alt": "cross-env PORT=3001 npm --prefix BackEnd run start",
+    "start:frontend": "npm --prefix FrontEnd run start",
+    "start": "concurrently \"npm --prefix BackEnd run start\" \"npm --prefix FrontEnd run start\"",
+    "start:alt": "concurrently \"cross-env PORT=3001 npm --prefix BackEnd run start\" \"npm --prefix FrontEnd run start\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/denioliver/Guard---Gerenciador-de-Contatos.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "concurrently": "^8.2.0",
+    "cross-env": "^10.0.0"
+  }
+}

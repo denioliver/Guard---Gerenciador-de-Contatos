@@ -26,7 +26,34 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
 
-  await app.listen(process.env.PORT ?? 3000);
-  console.log(`Aplicação rodando na porta ${process.env.PORT ?? 3000}`);
+  // Definir portas alternativas para tentar se a padrão estiver ocupada
+  const portOptions = [
+    parseInt(process.env.PORT || '3000', 10),
+    3001,
+    3002,
+    3003
+  ];
+
+  // Função para tentar conectar em diferentes portas
+  async function attemptToListen() {
+    for (const port of portOptions) {
+      try {
+        await app.listen(port);
+        console.log(`Aplicação rodando na porta ${port}`);
+        return true;
+      } catch (error) {
+        if (error.code === 'EADDRINUSE') {
+          console.log(`Porta ${port} já está em uso, tentando próxima...`);
+          continue;
+        }
+        // Se for outro tipo de erro, lançar novamente
+        throw error;
+      }
+    }
+    // Se chegou aqui, todas as portas falharam
+    throw new Error(`Não foi possível iniciar o servidor. Todas as portas (${portOptions.join(', ')}) estão em uso.`);
+  }
+
+  await attemptToListen();
 }
 bootstrap();

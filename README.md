@@ -48,11 +48,49 @@ FrontEnd/
 │   ├── assets/           # Recursos estáticos (imagens, ícones)
 │   ├── components/       # Componentes reutilizáveis
 │   ├── pages/            # Páginas da aplicação
-│   ├── routes/           # Configuração de rotas
-│   ├── services/         # Serviços de API
-│   └── styles/           # Estilos globais e temas
-└── index.html            # Entrada HTML principal
 ```
+
+## 🚨 Solução de Problemas
+
+### Portas em uso
+
+Se você encontrar o erro `EADDRINUSE: address already in use :::3000` ao iniciar o servidor backend, você tem algumas opções:
+
+1. **Usar script alternativo:** O projeto inclui scripts alternativos que utilizam portas diferentes:
+
+   ```bash
+   # Para iniciar apenas o backend em uma porta alternativa
+   npm run start:backend:alt
+
+   # Para iniciar todo o projeto com o backend em uma porta alternativa
+   npm run start:alt
+   ```
+
+2. **Definir porta manualmente:**
+
+   ```bash
+   # Windows PowerShell
+   $env:PORT=3001; npm --prefix BackEnd run start
+
+   # Linux/Mac
+   PORT=3001 npm --prefix BackEnd run start
+   ```
+
+3. **Configurar o frontend:** Se você alterar a porta do backend, pode ser necessário ajustar o arquivo `.env` no Frontend:
+
+   ```
+   VITE_API_URL=http://localhost:3001
+   ```
+
+### Conexão do frontend com o backend
+
+O frontend está configurado para tentar se conectar automaticamente ao backend nas portas 3000, 3001, 3002 e 3003. Se você estiver executando o backend em uma porta diferente, configure a variável de ambiente `VITE_API_URL` no arquivo `.env` do frontend.
+│ ├── routes/ # Configuração de rotas
+│ ├── services/ # Serviços de API
+│ └── styles/ # Estilos globais e temas
+└── index.html # Entrada HTML principal
+
+````
 
 ## 📊 Modelo de Dados
 
@@ -80,7 +118,7 @@ erDiagram
     }
 
     USER ||--o{ CONTACT : "possui"
-```
+````
 
 ## 🚀 Começando
 
@@ -90,9 +128,50 @@ erDiagram
 - MongoDB
 - npm ou yarn
 
+### Configuração do Ambiente
+
+#### 1. Clone o Repositório
+
+```bash
+git clone https://github.com/denioliver/Guard---Gerenciador-de-Contatos.git
+cd Guard---Gerenciador-de-Contatos
+```
+
+#### 2. Configuração do Arquivo .env (Backend)
+
+Crie um arquivo `.env` na pasta `BackEnd/` com as seguintes configurações:
+
+```
+# Configuração do MongoDB
+MONGODB_URI=mongodb://localhost:27017/guard-contacts
+
+# Chave secreta para tokens JWT (autenticação)
+JWT_SECRET=ebc68422a8d86c62f47a40a13e89d3f7b2732c94a5611b7b9f1d11ec209c7722
+
+# Tempo de expiração do token JWT em segundos (86400 = 24 horas)
+JWT_EXPIRATION=86400
+```
+
 ### Instalação e Execução
 
-#### Backend
+#### Opção 1: Execução com Scripts da Raiz (Recomendado)
+
+Você pode executar toda a aplicação com apenas um comando usando os scripts da raiz do projeto:
+
+```bash
+# Instalar todas as dependências (Backend e Frontend)
+npm install
+
+# Iniciar em modo de desenvolvimento (Backend e Frontend juntos)
+npm run dev
+
+# OU, se a porta 3000 estiver em uso:
+npm run dev:alt
+```
+
+#### Opção 2: Execução Individual de Cada Serviço
+
+##### Backend
 
 ```bash
 # Entrar no diretório do backend
@@ -108,9 +187,9 @@ npm run start:mongodb
 npm run start:dev
 ```
 
-O servidor estará disponível em `http://localhost:3000`.
+O servidor estará disponível em `http://localhost:3000` (ou porta alternativa).
 
-#### Frontend
+##### Frontend
 
 ```bash
 # Entrar no diretório do frontend
@@ -124,6 +203,19 @@ npm run dev
 ```
 
 A aplicação estará disponível em `http://localhost:5173`.
+
+### Construindo para Produção
+
+```bash
+# Construir ambos (Backend e Frontend)
+npm run build
+
+# Iniciar em modo de produção
+npm run start
+
+# OU, se a porta 3000 estiver em uso:
+npm run start:alt
+```
 
 ## 🧪 Testes
 

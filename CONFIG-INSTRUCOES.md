@@ -1,6 +1,6 @@
 # Configuração do Ambiente para Guard - Gerenciador de Contatos
 
-Olá! Para que a aplicação funcione corretamente, você precisará criar um arquivo de configuração de ambiente no backend. Siga os passos abaixo:
+Olá! Para que a aplicação funcione corretamente, você precisará criar arquivos de configuração de ambiente. Siga os passos abaixo:
 
 ## 1. Criar o arquivo .env no backend
 
