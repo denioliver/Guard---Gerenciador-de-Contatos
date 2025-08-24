@@ -43,7 +43,6 @@ export default function Contacts() {
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
   const [passwordVerificationAction, setPasswordVerificationAction] = useState<() => void>(() => { });
 
-  // Função para buscar contatos do backend
   const fetchContacts = () => {
     api.get('/contacts')
       .then(response => {
@@ -67,7 +66,6 @@ export default function Contacts() {
     try {
       const token = localStorage.getItem('token') || sessionStorage.getItem('token');
       if (token) {
-        // Tentar decodificar o token JWT para obter o email
         const base64Url = token.split('.')[1];
         if (base64Url) {
           const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
@@ -78,7 +76,6 @@ export default function Contacts() {
           }
         }
 
-        // Se não conseguir decodificar, buscar do backend
         api.get('/auth/profile')
           .then(response => {
             if (response.data && response.data.email) {
@@ -86,7 +83,6 @@ export default function Contacts() {
             }
           })
           .catch(() => {
-            // Em caso de erro, verifica se há email salvo
             const savedEmail = localStorage.getItem('userEmail');
             if (savedEmail) {
               setUserEmail(savedEmail);
@@ -103,7 +99,6 @@ export default function Contacts() {
     getUserEmail();
   }, []);
 
-  // Efeito para esconder todos os contatos inicialmente
   useEffect(() => {
     if (contacts.length > 0 && hideAllContacts) {
       setHiddenContacts(contacts.map(c => c.id));
@@ -192,12 +187,10 @@ export default function Contacts() {
                     setHiddenContacts([]);
                   };
 
-                  // Se está escondendo e vai mostrar, pedir senha
                   if (hideAllContacts) {
                     setPasswordVerificationAction(() => showAllContacts);
                     setIsPasswordModalOpen(true);
                   } else {
-                    // Se está mostrando e vai esconder, não precisa de senha
                     setHideAllContacts(true);
                     setHiddenContacts(contacts.map(c => c.id));
                   }
@@ -262,10 +255,8 @@ export default function Contacts() {
                               title={isHidden ? 'Mostrar dados' : 'Esconder dados'}
                               onClick={() => {
                                 if (isHidden) {
-                                  // Se está escondido, vai mostrar - precisa de senha
                                   const showContact = () => {
                                     setHiddenContacts(prev => prev.filter(id => id !== c.id));
-                                    // Se estiver mostrando todos os contatos, atualiza o estado global
                                     if (hiddenContacts.length === 1) {
                                       setHideAllContacts(false);
                                     }
@@ -273,9 +264,7 @@ export default function Contacts() {
                                   setPasswordVerificationAction(() => showContact);
                                   setIsPasswordModalOpen(true);
                                 } else {
-                                  // Se está visível, vai esconder - não precisa de senha
                                   setHiddenContacts(prev => [...prev, c.id]);
-                                  // Se estiver escondendo o último contato visível, atualiza o estado global
                                   if (hiddenContacts.length === contacts.length - 1) {
                                     setHideAllContacts(true);
                                   }

@@ -193,7 +193,6 @@ export default function PasswordModal({ isOpen, onClose, onPasswordVerified }: P
     setError('');
 
     try {
-      // Recupera o email do usuário armazenado
       const userEmail = localStorage.getItem('userEmail');
 
       if (!userEmail) {
@@ -205,14 +204,12 @@ export default function PasswordModal({ isOpen, onClose, onPasswordVerified }: P
 
       console.log('Tentando validar senha para:', userEmail);
 
-      // Valida a senha com o backend
       try {
         await api.post('/auth/validate-password', {
           email: userEmail,
           senha: password
         });
 
-        // Se não ocorreu erro, senha está correta
         onPasswordVerified();
         onClose();
         setPassword('');
