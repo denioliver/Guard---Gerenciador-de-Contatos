@@ -50,7 +50,7 @@ export default function Contacts() {
           const mappedContacts = response.data.map((c: { _id?: string, id?: number, nome?: string, name?: string, type?: string, telefone?: string, phone?: string, email?: string, avatar?: string }) => {
             // Garantir que o id seja sempre um valor válido (string ou número)
             const contactId = c._id || c.id || Math.random().toString(36).substring(2, 9);
-            
+
             return {
               id: contactId,
               name: c.nome || c.name || '',
