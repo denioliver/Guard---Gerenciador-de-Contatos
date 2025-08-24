@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FiEye, FiEyeOff, FiX } from 'react-icons/fi';
 import { BiLoaderAlt } from 'react-icons/bi';
-import { Checkbox } from '../../components/Checkbox';
 import Logo from '../../components/Logo';
 import { useNavigate } from 'react-router-dom';
 import api from '../../services/api';
@@ -17,10 +16,6 @@ function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [isForgotPasswordModalOpen, setIsForgotPasswordModalOpen] = useState(false);
   const navigate = useNavigate();
-
-  // Novos estados para lembrar email/senha
-  const [rememberedEmail, setRememberedEmail] = useState<string>('');
-  const [rememberedPassword, setRememberedPassword] = useState<string>('');
 
   const {
     register,
@@ -40,7 +35,7 @@ function Login() {
     }
   });
 
-  // Carregar email/senha salvos ao abrir a tela
+
   useEffect(() => {
     setFocus('email');
     const authErrorMessage = sessionStorage.getItem('auth_error_message');
@@ -48,15 +43,13 @@ function Login() {
       setGeneralError(authErrorMessage);
       sessionStorage.removeItem('auth_error_message');
     }
-    // Carregar dados salvos
+
     const savedEmail = localStorage.getItem('rememberedEmail') || '';
     const savedPassword = localStorage.getItem('rememberedPassword') || '';
     if (savedEmail && savedPassword) {
       setValue('email', savedEmail);
       setValue('password', savedPassword);
       setValue('rememberMe', true);
-      setRememberedEmail(savedEmail);
-      setRememberedPassword(savedPassword);
     }
   }, [setFocus, setValue]);
 
@@ -73,7 +66,7 @@ function Login() {
       if (token) {
         localStorage.setItem('token', token);
         localStorage.setItem('userEmail', data.email);
-        // Salvar ou remover email/senha conforme checkbox
+
         if (data.rememberMe) {
           localStorage.setItem('rememberedEmail', data.email);
           localStorage.setItem('rememberedPassword', data.password);
@@ -114,15 +107,17 @@ function Login() {
     }
   };
 
-  // Função para recuperar senha
+
   const handleForgotPassword = async (email: string) => {
     setGeneralError(null);
     try {
       const response = await api.post('/auth/forgot-password', { email });
-      if (response.data && response.data.success) {
+      const responseData = response.data as { success?: boolean; message?: string };
+      if (responseData && responseData.success) {
         setGeneralError('A senha foi enviada para o seu e-mail!');
       } else {
-        throw new Error(response.data.message || 'Não foi possível enviar a senha.');
+        const message = responseData.message || 'Não foi possível enviar a senha.';
+        throw new Error(message);
       }
     } catch (err: unknown) {
       interface ErrorResponse {
@@ -217,19 +212,6 @@ function Login() {
                 <Styles.ErrorText>{errors.password.message}</Styles.ErrorText>
               )}
             </Styles.FormGroup>
-
-            <Controller
-              name="rememberMe"
-              control={control}
-              render={({ field }) => (
-                <Checkbox
-                  label="Lembrar-me neste dispositivo"
-                  checked={field.value}
-                  onChange={field.onChange}
-                  name={field.name}
-                />
-              )}
-            />
 
             <Styles.Button type="submit" disabled={isLoading}>
               {isLoading ? (

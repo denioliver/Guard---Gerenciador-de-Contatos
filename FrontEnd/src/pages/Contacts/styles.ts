@@ -178,7 +178,7 @@ export const MainCard = styled.div`
   margin: 24px auto 0;
   padding: 24px 32px 24px 60px;
   width: 950px;
-  height: 500px;
+  height: 600px; /* Aumentado para acomodar todas as letras */
   display: flex;
   flex-direction: column;
   position: relative;
@@ -195,21 +195,36 @@ export const LetterBar = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 10px 0;
-  gap: 2px;
+  padding: 8px 0;
+  gap: 1px; /* Reduzido para encaixar melhor todas as letras */
+  max-height: calc(100% - 48px); /* Limita a altura para não ultrapassar o card */
+  overflow-y: auto; /* Adiciona scroll caso necessário */
+  
+  /* Estilo da barra de rolagem se necessário */
+  scrollbar-width: none; /* Para Firefox */
+  -ms-overflow-style: none; /* Para IE e Edge */
+  &::-webkit-scrollbar {
+    display: none; /* Para Chrome, Safari e Opera */
+  }
 `;
 
 export const LetterItem = styled.button<{ $active?: boolean }>`
   border: none;
   color: ${({ $active }) => ($active ? '#222' : '#222')};
   font-weight: ${({ $active }) => ($active ? 'bold' : 'normal')};
-  font-size: 13px;
-  padding: 3px 0;
+  font-size: 12px; /* Tamanho reduzido para melhor ajuste */
+  padding: 2px 0;
   width: 100%;
+  height: 18px; /* Altura fixa para melhor uniformidade */
   border-radius: 6px;
   background: ${({ $active }) => ($active ? '#fff' : 'transparent')};
   cursor: pointer;
   transition: background 0.2s;
+  
+  /* Efeito hover para melhorar a usabilidade */
+  &:hover {
+    background: ${({ $active }) => ($active ? '#fff' : 'rgba(255, 255, 255, 0.2)')};
+  }
 `;
 
 export const TableContainer = styled.div`
@@ -221,6 +236,7 @@ export const TableContainer = styled.div`
   max-height: calc(100% - 80px); /* Espaço para o cabeçalho */
   scrollbar-width: thin;
   scrollbar-color: #444 #222;
+  padding-right: 8px; /* Espaço para a barra de rolagem */
   
   &::-webkit-scrollbar {
     width: 8px;
