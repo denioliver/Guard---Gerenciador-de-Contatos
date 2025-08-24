@@ -12,6 +12,54 @@ O Guard é uma aplicação web para gerenciar contatos pessoais, oferecendo recu
 - Interface responsiva e intuitiva
 - API RESTful segura
 
+## 🚀 Executando o Projeto
+
+### Modo rápido (Windows)
+
+Para iniciar tanto o frontend quanto o backend em modo de produção:
+
+1. Simplesmente execute o arquivo `iniciar-aplicacao.bat` na raiz do projeto
+2. O frontend estará disponível em http://localhost:3000
+3. O backend estará disponível em http://localhost:3001
+
+### Modo manual
+
+#### Backend (porta 3001)
+
+```bash
+cd BackEnd
+npm install
+npm run build
+npm run start:prod
+```
+
+#### Frontend (porta 3000)
+
+```bash
+cd FrontEnd
+npm install
+npm run build
+npx vite preview --port 3000
+```
+
+### Modo desenvolvimento
+
+#### Backend (porta 3001)
+
+```bash
+cd BackEnd
+npm install
+npm run start:dev
+```
+
+#### Frontend (porta 5173, padrão do Vite)
+
+```bash
+cd FrontEnd
+npm install
+npm run dev
+```
+
 ## 🏗️ Estrutura do Projeto
 
 O projeto está dividido em duas partes principais:

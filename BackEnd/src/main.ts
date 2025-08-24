@@ -10,7 +10,26 @@ async function bootstrap() {
   app.use(bodyParser.json({ limit: '5mb' }));
   app.use(bodyParser.urlencoded({ limit: '5mb', extended: true }));
 
-  app.enableCors();
+  app.enableCors({
+    origin: (origin, callback) => {
+      // Permite localhost e IP local
+      const allowed = [
+        'http://localhost:3000',
+        'http://localhost:5173',
+        'http://localhost:4173',
+        'http://localhost',
+      ];
+      // Permite qualquer IP local na porta 3000
+      const ipRegex = /^http:\/\/192\.168\.[0-9]+\.[0-9]+:3000$/;
+      if (allowed.includes(origin) || ipRegex.test(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    credentials: true,
+  });
 
   app.useGlobalPipes(new ValidationPipe());
 
@@ -26,32 +45,31 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
 
-  // Definir portas alternativas para tentar se a padrão estiver ocupada
-  const portOptions = [
-    parseInt(process.env.PORT || '3000', 10),
-    3001,
-    3002,
-    3003
-  ];
+  const portOptions = [parseInt(process.env.PORT || '3001', 10), 3002, 3003, 3000];
 
-  // Função para tentar conectar em diferentes portas
   async function attemptToListen() {
     for (const port of portOptions) {
       try {
         await app.listen(port);
         console.log(`Aplicação rodando na porta ${port}`);
         return true;
-      } catch (error) {
-        if (error.code === 'EADDRINUSE') {
+      } catch (error: unknown) {
+        if (
+          typeof error === 'object' &&
+          error !== null &&
+          'code' in error &&
+          (error as { code?: string }).code === 'EADDRINUSE'
+        ) {
           console.log(`Porta ${port} já está em uso, tentando próxima...`);
           continue;
         }
-        // Se for outro tipo de erro, lançar novamente
         throw error;
       }
     }
-    // Se chegou aqui, todas as portas falharam
-    throw new Error(`Não foi possível iniciar o servidor. Todas as portas (${portOptions.join(', ')}) estão em uso.`);
+    throw new Error(
+      `
+      Não foi possível iniciar o servidor. Todas as portas (${portOptions.join(', ')}) estão em uso.`,
+    );
   }
 
   await attemptToListen();
