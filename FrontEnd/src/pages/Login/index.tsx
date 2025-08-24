@@ -9,12 +9,18 @@ import { useNavigate } from 'react-router-dom';
 import api from '../../services/api';
 import * as Styles from './styles';
 import { loginSchema, type LoginFormData } from './schema';
+import ForgotPasswordModal from './ForgotPasswordModal';
 
 function Login() {
   const [generalError, setGeneralError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [isForgotPasswordModalOpen, setIsForgotPasswordModalOpen] = useState(false);
   const navigate = useNavigate();
+
+  // Novos estados para lembrar email/senha
+  const [rememberedEmail, setRememberedEmail] = useState<string>('');
+  const [rememberedPassword, setRememberedPassword] = useState<string>('');
 
   const {
     register,
@@ -28,19 +34,31 @@ function Login() {
     resolver: zodResolver(loginSchema),
     mode: 'onChange',
     defaultValues: {
+      email: '',
+      password: '',
       rememberMe: false
     }
   });
 
+  // Carregar email/senha salvos ao abrir a tela
   useEffect(() => {
     setFocus('email');
-
     const authErrorMessage = sessionStorage.getItem('auth_error_message');
     if (authErrorMessage) {
       setGeneralError(authErrorMessage);
       sessionStorage.removeItem('auth_error_message');
     }
-  }, [setFocus]);
+    // Carregar dados salvos
+    const savedEmail = localStorage.getItem('rememberedEmail') || '';
+    const savedPassword = localStorage.getItem('rememberedPassword') || '';
+    if (savedEmail && savedPassword) {
+      setValue('email', savedEmail);
+      setValue('password', savedPassword);
+      setValue('rememberMe', true);
+      setRememberedEmail(savedEmail);
+      setRememberedPassword(savedPassword);
+    }
+  }, [setFocus, setValue]);
 
   const onSubmit = async (data: LoginFormData) => {
     setGeneralError(null);
@@ -55,6 +73,14 @@ function Login() {
       if (token) {
         localStorage.setItem('token', token);
         localStorage.setItem('userEmail', data.email);
+        // Salvar ou remover email/senha conforme checkbox
+        if (data.rememberMe) {
+          localStorage.setItem('rememberedEmail', data.email);
+          localStorage.setItem('rememberedPassword', data.password);
+        } else {
+          localStorage.removeItem('rememberedEmail');
+          localStorage.removeItem('rememberedPassword');
+        }
         navigate('/contacts');
       } else {
         setGeneralError('Token não recebido.');
@@ -85,6 +111,43 @@ function Login() {
       }
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  // Função para recuperar senha
+  const handleForgotPassword = async (email: string) => {
+    setGeneralError(null);
+    try {
+      const response = await api.post('/auth/forgot-password', { email });
+      if (response.data && response.data.success) {
+        setGeneralError('A senha foi enviada para o seu e-mail!');
+      } else {
+        throw new Error(response.data.message || 'Não foi possível enviar a senha.');
+      }
+    } catch (err: unknown) {
+      interface ErrorResponse {
+        response?: {
+          data?: {
+            message?: string;
+          };
+        };
+      }
+
+      const errorObj = err as ErrorResponse;
+
+      if (
+        typeof err === 'object' &&
+        err !== null &&
+        errorObj.response &&
+        typeof errorObj.response === 'object' &&
+        errorObj.response.data &&
+        typeof errorObj.response.data === 'object' &&
+        errorObj.response.data.message
+      ) {
+        throw new Error(errorObj.response.data.message as string);
+      } else {
+        throw new Error('Erro ao tentar recuperar a senha.');
+      }
     }
   };
 
@@ -153,7 +216,7 @@ function Login() {
               {errors.password && (
                 <Styles.ErrorText>{errors.password.message}</Styles.ErrorText>
               )}
-              <Styles.ForgotPasswordLink href="#">
+              <Styles.ForgotPasswordLink href="#" onClick={e => { e.preventDefault(); setIsForgotPasswordModalOpen(true); }}>
                 Esqueci minha senha
               </Styles.ForgotPasswordLink>
             </Styles.FormGroup>
@@ -186,6 +249,12 @@ function Login() {
           </Styles.Form>
         </Styles.FormContainer>
       </Styles.FormSection>
+
+      <ForgotPasswordModal
+        isOpen={isForgotPasswordModalOpen}
+        onClose={() => setIsForgotPasswordModalOpen(false)}
+        onSubmit={handleForgotPassword}
+      />
     </Styles.PageContainer>
   );
 }
