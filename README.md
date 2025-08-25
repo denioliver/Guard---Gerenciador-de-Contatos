@@ -4,6 +4,11 @@ Um sistema completo de gerenciamento de contatos com autenticação de usuários
 
 ## 📋 Visão Geral
 
+## 🌐 URLs de Produção
+
+- Frontend: [https://guard.up.railway.app/](https://guard.up.railway.app/)
+- Backend (API): [https://guard-gerenciador-de-contatos-production.up.railway.app/api](https://guard-gerenciador-de-contatos-production.up.railway.app/api)
+
 O Guard é uma aplicação web para gerenciar contatos pessoais, oferecendo recursos como:
 
 - Cadastro e autenticação de usuários
@@ -13,16 +18,6 @@ O Guard é uma aplicação web para gerenciar contatos pessoais, oferecendo recu
 - API RESTful segura
 
 ## 🚀 Executando o Projeto
-
-### Modo rápido (Windows)
-
-Para iniciar tanto o frontend quanto o backend em modo de produção:
-
-1. Simplesmente execute o arquivo `iniciar-aplicacao.bat` na raiz do projeto
-2. O frontend estará disponível em http://localhost:3000
-3. O backend estará disponível em http://localhost:3001
-
-### Modo manual
 
 #### Backend (porta 3001)
 
