@@ -3,6 +3,9 @@ import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
 import * as bodyParser from 'body-parser';
+import * as dotenv from 'dotenv';
+
+dotenv.config();
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -11,23 +14,11 @@ async function bootstrap() {
   app.use(bodyParser.urlencoded({ limit: '5mb', extended: true }));
 
   app.enableCors({
-    origin: (origin, callback) => {
-      // Permite localhost e IP local
-      const allowed = [
-        'http://localhost:3000',
-        'http://localhost:5173',
-        'http://localhost:4173',
-        'http://localhost',
-      ];
-      // Permite qualquer IP local na porta 3000
-      const ipRegex = /^http:\/\/192\.168\.[0-9]+\.[0-9]+:3000$/;
-      if (allowed.includes(origin) || ipRegex.test(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error('Not allowed by CORS'));
-      }
-    },
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    origin: [
+      'https://guard.up.railway.app',
+      'http://localhost:3000',
+      process.env.FRONTEND_URL,
+    ],
     credentials: true,
   });
 
