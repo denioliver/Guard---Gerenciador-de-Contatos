@@ -9,7 +9,7 @@ afterEach(() => {
 });
 
 export const handlers = [
-  http.post('http://localhost:3000/auth/login', async ({ request }) => {
+  http.post('http://guard-gerenciador-de-contatos-production.up.railway.app/auth/login', async ({ request }) => {
     const body = await request.json();
     const { email, senha } = body as { email: string; senha: string };
 
@@ -24,7 +24,7 @@ export const handlers = [
     }, { status: 401 });
   }),
 
-  http.get('http://localhost:3000/contacts', ({ request }) => {
+  http.get('http://guard-gerenciador-de-contatos-production.up.railway.app/contacts', ({ request }) => {
     const token = request.headers.get('authorization')?.split(' ')[1];
 
     if (!token || token !== 'fake-jwt-token') {

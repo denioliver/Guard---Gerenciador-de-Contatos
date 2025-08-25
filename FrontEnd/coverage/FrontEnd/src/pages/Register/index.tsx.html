@@ -341,7 +341,7 @@
 <span class="cstat-no" title="statement not covered" >  const onSubmit = async (data: RegisterFormData): Promise&lt;void&gt; =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    setError('');</span>
 <span class="cstat-no" title="statement not covered" >    try {</span>
-<span class="cstat-no" title="statement not covered" >      await axios.post('http://localhost:3000/auth/register', data);</span>
+<span class="cstat-no" title="statement not covered" >      await axios.post('https://guard-gerenciador-de-contatos-production.up.railway.app/auth/register', data);</span>
 <span class="cstat-no" title="statement not covered" >      navigate('/');</span>
 <span class="cstat-no" title="statement not covered" >    } catch {</span>
 <span class="cstat-no" title="statement not covered" >      setError('Erro ao criar conta. Tente novamente.');</span>

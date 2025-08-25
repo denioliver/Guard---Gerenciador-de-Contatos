@@ -32,7 +32,7 @@ export default function Register() {
   const onSubmit = async (data: RegisterFormData): Promise<void> => {
     setError('');
     try {
-      await axios.post('http://localhost:3000/auth/register', data);
+      await axios.post('https://guard-gerenciador-de-contatos-production.up.railway.app/auth/register', data);
       navigate('/');
     } catch {
       setError('Erro ao criar conta. Tente novamente.');
