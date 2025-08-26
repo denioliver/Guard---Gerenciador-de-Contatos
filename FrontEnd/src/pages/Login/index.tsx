@@ -20,7 +20,6 @@ function Login() {
   const {
     register,
     handleSubmit,
-    // control, // removido por não estar sendo usado
     formState: { errors },
     watch,
     setValue,

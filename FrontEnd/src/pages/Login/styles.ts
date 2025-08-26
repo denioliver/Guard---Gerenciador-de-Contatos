@@ -18,9 +18,10 @@ export const SpinAnimation = styled.span`
 
 export const PageContainer = styled.div`
   display: flex;
-  height: 100vh;
+  min-height: 100vh;
   width: 100%;
-  overflow: hidden;
+  overflow-x: hidden;
+  flex-wrap: wrap;
 `;
 
 export const BackgroundSection = styled.div`
