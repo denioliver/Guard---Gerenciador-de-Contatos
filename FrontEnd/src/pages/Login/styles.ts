@@ -20,8 +20,8 @@ export const PageContainer = styled.div`
   display: flex;
   min-height: 100vh;
   width: 100%;
-  overflow-x: hidden;
-  flex-wrap: wrap;
+  overflow-x: hidden; /* evita scroll lateral no mobile */
+  flex-wrap: wrap; /* deixa quebrar em telas pequenas */
 `;
 
 export const BackgroundSection = styled.div`
@@ -61,16 +61,18 @@ export const LogoContainer = styled.div`
 
 export const FormSection = styled.div`
   width: 497px;
+  max-width: 100%; /* nunca ultrapassa a tela */
   height: 100vh;
   background-color: ${({ theme }) => theme.colors.background.primary};
   display: flex;
   flex-direction: column;
   padding: 40px 60px;
   justify-content: center;
-  
+
   @media (max-width: 768px) {
     width: 100%;
-    min-width: unset;
+    padding: 20px; /* reduzir padding no mobile */
+    height: auto; /* deixa crescer com o conteúdo */
   }
 `;
 

@@ -123,6 +123,7 @@ export default function Contacts() {
         <div style={{ marginTop: '20px' }}>
           <Logo size="small" showText={false} />
         </div>
+        <span className="contacts-title mobile-title">Lista de contatos</span>
         <Styles.Menu>
           <Styles.MenuItem $active title="Lista de Contatos">
             <ContactIcon size={24} color="currentColor" />
@@ -151,7 +152,7 @@ export default function Contacts() {
       <Styles.Content>
         <Styles.MainCard>
           <Styles.CardHeader>
-            <Styles.Title>Lista de contatos</Styles.Title>
+            <span className="contacts-title desktop-title">Lista de contatos</span>
             <Styles.SearchAdd>
               <Styles.SearchBox>
                 <FiSearch />

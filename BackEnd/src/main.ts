@@ -18,6 +18,7 @@ async function bootstrap() {
       const allowedOrigins = [
         'https://guard.up.railway.app',
         'http://localhost:3000',
+        'http://localhost:5173',
         process.env.FRONTEND_URL,
       ].filter(Boolean);
       if (!origin || allowedOrigins.includes(origin)) {

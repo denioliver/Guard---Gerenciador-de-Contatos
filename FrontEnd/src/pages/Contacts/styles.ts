@@ -4,6 +4,10 @@ export const Container = styled.div`
   display: flex;
   min-height: 100vh;
   background: #111;
+  @media (max-width: 900px) {
+    flex-direction: column;
+    min-height: 100vh;
+  }
 `;
 
 export const Sidebar = styled.aside`
@@ -13,6 +17,26 @@ export const Sidebar = styled.aside`
   align-items: center;
   padding: 30px 0 12px 0;
   position: relative;
+    .contacts-title {
+      color: #fff;
+      font-size: 1.1rem;
+      font-weight: 500;
+      margin-bottom: 18px;
+      display: none;
+      text-align: center;
+      @media (max-width: 900px) {
+        margin-bottom: 0;
+        margin-right: 12px;
+      }
+    }
+  @media (max-width: 900px) {
+    width: 100vw;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 8px;
+    position: static;
+  }
 `;
 
 export const Menu = styled.div`
@@ -22,6 +46,12 @@ export const Menu = styled.div`
   margin-top: 60px;
   flex: 1;
   justify-content: flex-start;
+  @media (max-width: 900px) {
+    flex-direction: row;
+    margin-top: 0;
+    gap: 8px;
+    justify-content: center;
+  }
 `;
 
 export const MenuItem = styled.button<{ $active?: boolean }>`
@@ -29,10 +59,10 @@ export const MenuItem = styled.button<{ $active?: boolean }>`
   color: ${({ $active }) => ($active ? '#D6FF4B' : '#999')};
   border: none;
   border-radius: 12px;
-  padding: 10px;
-  font-size: 20px;
-  width: 46px;
-  height: 46px;
+    padding: 8px;
+    font-size: 15px;
+    width: 38px;
+    height: 38px;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -168,18 +198,18 @@ export const AddButton = styled.button`
         justify-content: center;
         align-items: center;
         border-radius: 8px;
-        padding: 4px 0;
+        padding: 4px 8px;
         margin-bottom: 8px;
         max-height: none;
         overflow-x: auto;
         overflow-y: hidden;
+        font-size: 12px;
       }
   font-weight: 500;
   display: flex;
   align-items: center;
   gap: 6px;
   cursor: pointer;
-  transition: background 0.2s;
   &:hover {
     background: #444;
   }
@@ -191,23 +221,23 @@ export const MainCard = styled.div`
   margin: 24px auto 0;
   padding: 24px 32px 24px 60px;
   width: 950px;
-  height: 600px; /* Aumentado para acomodar todas as letras */
+  height: 600px;
   display: flex;
   flex-direction: column;
   position: relative;
   overflow: hidden;
-    @media (max-width: 1100px) {
-      width: 98vw;
-      padding: 16px 8vw 16px 40px;
-      min-width: 0;
-    }
-    @media (max-width: 700px) {
-      width: 100vw;
-      min-width: 0;
-      padding: 12px 2vw 12px 12px;
-      border-radius: 12px;
-      height: auto;
-    }
+  @media (max-width: 1100px) {
+    width: 98vw;
+    padding: 16px 8vw 16px 40px;
+    min-width: 0;
+  }
+  @media (max-width: 900px) {
+    width: 100vw;
+    min-width: 0;
+    padding: 12px 2vw 12px 12px;
+    border-radius: 12px;
+    height: auto;
+  }
 `;
 
 export const LetterBar = styled.div`
@@ -221,15 +251,26 @@ export const LetterBar = styled.div`
   flex-direction: column;
   align-items: center;
   padding: 8px 0;
-  gap: 1px; /* Reduzido para encaixar melhor todas as letras */
-  max-height: calc(100% - 48px); /* Limita a altura para não ultrapassar o card */
-  overflow-y: auto; /* Adiciona scroll caso necessário */
-  
-  /* Estilo da barra de rolagem se necessário */
-  scrollbar-width: none; /* Para Firefox */
-  -ms-overflow-style: none; /* Para IE e Edge */
+  gap: 1px;
+  max-height: calc(100% - 48px);
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
   &::-webkit-scrollbar {
-    display: none; /* Para Chrome, Safari e Opera */
+    display: none;
+  }
+  @media (max-width: 900px) {
+    position: static;
+    flex-direction: row;
+    width: 100%;
+    border-radius: 12px;
+    justify-content: center;
+    align-items: center;
+    padding: 4px 0;
+    max-height: none;
+    margin-bottom: 8px;
+    overflow-x: auto;
+    overflow-y: hidden;
   }
 `;
 
@@ -287,14 +328,12 @@ export const TableContainer = styled.div`
 export const ContactsTable = styled.table`
   width: 100%;
   border-collapse: collapse;
-  
   thead {
     position: sticky;
     top: 0;
     background: #181818;
     z-index: 1;
   }
-  
   th {
     color: #bdbdbd;
     font-size: 11px;
@@ -303,23 +342,22 @@ export const ContactsTable = styled.table`
     padding-bottom: 8px;
     text-transform: uppercase;
   }
-  
   td {
     color: #fff;
     font-size: 13px;
     padding: 10px 0;
     border-bottom: 1px solid #222;
   }
-    @media (max-width: 700px) {
-      th, td {
-        font-size: 11px;
-        padding: 6px 2px;
-      }
-      td {
-        word-break: break-word;
-        max-width: 120px;
-      }
+  @media (max-width: 900px) {
+    th, td {
+      font-size: 11px;
+      padding: 6px 2px;
     }
+    td {
+      word-break: break-word;
+      max-width: 120px;
+    }
+  }
 `;
 
 export const ContactInfo = styled.div`
