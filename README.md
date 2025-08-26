@@ -190,7 +190,8 @@ Crie um arquivo `.env` na pasta `BackEnd/` com o seguinte conteúdo:
 MONGODB_URI=mongodb://localhost:27017/guard-contacts
 
 # Chave secreta para tokens JWT (autenticação)
-JWT_SECRET=ebc68422a8d86c62f47a40a13e89d3f7b2732c94a5611b7b9f1d11ec209c7722
+# Subistitua [sua-chave-secreta-aqui] por uma chave forte
+JWT_SECRET=[sua-chave-secreta-aqui]
 
 # Tempo de expiração do token JWT em segundos (86400 = 24 horas)
 JWT_EXPIRATION=86400
