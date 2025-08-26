@@ -180,11 +180,12 @@ git clone https://github.com/denioliver/Guard---Gerenciador-de-Contatos.git
 cd Guard---Gerenciador-de-Contatos
 ```
 
-#### 2. Configuração do Arquivo .env (Backend)
+#### 2. Crie os arquivos `.env` do Backend e Frontend
 
-Crie um arquivo `.env` na pasta `BackEnd/` com as seguintes configurações:
+**Backend:**
+Crie um arquivo `.env` na pasta `BackEnd/` com o seguinte conteúdo:
 
-```
+```env
 # Configuração do MongoDB
 MONGODB_URI=mongodb://localhost:27017/guard-contacts
 
@@ -193,7 +194,23 @@ JWT_SECRET=ebc68422a8d86c62f47a40a13e89d3f7b2732c94a5611b7b9f1d11ec209c7722
 
 # Tempo de expiração do token JWT em segundos (86400 = 24 horas)
 JWT_EXPIRATION=86400
+
+# URL do frontend para CORS (ajuste conforme ambiente)
+FRONTEND_URL=http://localhost:5173
 ```
+
+**Frontend:**
+Crie um arquivo `.env` na pasta `FrontEnd/` com o seguinte conteúdo:
+
+```env
+# URL da API do backend
+VITE_API_URL=http://localhost:3001
+```
+
+> **Importante:**
+>
+> - Em produção, ajuste as URLs para os domínios Railway.
+> - Sempre reinicie os servidores após alterar os arquivos `.env`.
 
 ### Instalação e Execução
 
